@@ -1,0 +1,1 @@
+<div class="headbar"><a href="/"><img src="/img/friendlist_title.gif" width="250" height="30" border=0></a>{if isset($flid)}&nbsp;<img src="/img/headbar_left.gif" width="24" height="30">{$friendlist.$flid.name|makeFriendlistName:32}<img src="/img/headbar_right.gif" width="24" height="30">{/if}</div>

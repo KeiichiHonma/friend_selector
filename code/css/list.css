@@ -1,0 +1,235 @@
+@charset "UTF-8";
+@import url(textsettings.css);
+
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+legend,
+input,
+select,
+button,
+textarea,
+p,
+blockquote,
+img,
+tr,
+td,
+ {
+    margin: 0;
+    padding: 0;
+}
+
+.fl{
+    float:left;
+}
+
+.fr{
+    float:right;
+}
+
+.clr{
+    clear:both;
+}
+
+/* =====================================================
+    Clearfix
+===================================================== */
+.clearfix:after {
+    content: " "; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+    min-height: 1%;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {
+    height: 1%;
+}
+.clearfix {
+    display: block;
+}
+/* End hide from IE-Mac */
+
+.headbar{
+    background-color: #FE9300;
+    color:#FFFFFF;
+    padding-top: 0px;
+    margin:0px;
+    line-height:30px;
+    font-size:20px;
+    font-weight:bold;
+    height:32px;
+}
+
+.headbar img{
+    vertical-align:middle;
+}
+
+.line{
+    height:2px;
+    border-bottom:2px dashed #e7ebf2;
+}
+
+.sign{
+    float:right;
+    font-size: 12px;
+    color:#888888;
+}
+
+.bg {
+    background-color: #FFF9E6;
+}
+.wrap-friendlist-select {
+    border-top: 3px solid #e7ebf2;
+    border-right: 3px solid #e7ebf2;
+    border-left: 3px solid #e7ebf2;
+    padding:0 0 0 3;
+}
+
+.wrap-friendlist-select-bottom {
+    border-left: 3px solid #e7ebf2;
+    border-bottom: 3px solid #e7ebf2;
+    border-right: 3px solid #e7ebf2;
+
+/*    border-top: 6px solid #E6E6E6;
+    border-bottom: 6px solid #E6E6E6;
+    border-right: 6px solid #E6E6E6;*/
+}
+
+.friendlist-name{
+    padding-bottom:5px;
+    border-bottom:2px solid #e7ebf2;
+    font-size:16px;
+}
+.friendlist-name img{
+    vertical-align:middle;
+}
+.friendlist-sec-name{
+    padding-top:5px;
+    padding-bottom:5px;
+    border-bottom:2px solid #e7ebf2;
+    margin-bottom:0.5em;
+}
+
+.friendlist-sec-name img{
+    vertical-align:middle;
+}
+
+.left_grid{
+    float:left;
+}
+
+.center_grid{
+    position:relative;
+    padding-top:200px;
+    float:left;
+}
+
+.add_spin{
+    position:absolute;
+    top:-50px;
+    left:390px
+}
+
+.add_view_spin{
+    position:absolute;
+    top:275px;
+    left:90px
+}
+
+.spin{
+    position:absolute;
+    /*height600の場合*/
+    /*top:230px;*/
+    top:130px;
+    left:-80px
+}
+
+.center_grid .in_form{
+    margin-bottom:10px;
+}
+
+.right_grid{
+    float:left;
+}
+/*select {
+    font-size: 10pt;
+    margin:0px;
+    padding: 1px;
+    border: 1px solid #cfd0d4;
+    background-color: #fff;
+    -moz-border-radius:5px;
+    -webkit-border-radius: 4px;
+    vertical-align:0em;
+}*/
+
+fieldset {
+    font-size:12px;
+    border: 1px #e7ebf2 solid;
+    -moz-border-radius: 5px; /* for Firefox */
+    -webkit-border-radius: 5px; /* for Chrome */
+}
+
+fieldset legend{
+    padding-top:2px;
+    line-height:18px;
+}
+fieldset legend img{
+    vertical-align:middle;
+}
+
+fieldset.box td.radio{
+    /*font-size: 95%;*/
+}
+
+#add_form #add_friendlist_name{
+    width:145px;
+}
+
+
+table.search td{
+    vertical-align:top;
+    text-align:left;
+}
+
+table.search td.arrow{
+    vertical-align:middle;
+    text-align:left;
+}
+
+
+
+.grid_block{
+    margin:0;
+    padding:0;
+}
+
+ul.explain {
+    margin: 15px 0px 0px 0px;
+    line-height: 1.4;
+    margin-left: 10px;
+    padding-left: 25px;
+}
+ul.explain li {
+    margin-bottom: 15px;
+    line-height: 1.4;
+    list-style-position: outside;
+    list-style-type: disc;
+}

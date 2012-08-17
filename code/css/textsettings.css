@@ -1,0 +1,155 @@
+@charset "UTF-8";
+
+/* ---------------------------------------------------------------- *
+　　ここではテキストの基本設定のみおこない
+	細かなテキスト設定はcommon.cssにて
+ * ---------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------- *
+	YUI Fonts
+ * ---------------------------------------------------------------- */
+/*
+Copyright (c) 2009, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.7.0
+*/
+/**
+ * YUI Fonts
+ * @module fonts
+ * @namespace yui-
+ * @requires 
+ */
+
+/**
+ * Percents could work for IE, but for backCompat purposes, we are using keywords.
+ * x-small is for IE6/7 quirks mode.
+ */
+body {
+	font:13px/1.231 "ＭＳ Ｐゴシック",arial,helvetica,clean,sans-serif;
+	/* for IE6/7 */ 
+	*font-size:small; 
+	/* for IE Quirks Mode */
+	*font:x-small; 
+}
+
+/**
+ * Nudge down to get to 13px equivalent for these form elements
+ */ 
+select,
+input,
+button,
+textarea,
+button {
+	font:99% "ＭＳ Ｐゴシック",arial,helvetica,clean,sans-serif;
+}
+
+/**
+ * To help tables remember to inherit
+ */
+table {
+	font-size:inherit;
+	font:100%;
+}
+
+/**
+ * Bump up IE to get to 13px equivalent for these fixed-width elements
+ */
+pre,
+code,
+kbd,
+samp,
+tt {
+	font-family:monospace;
+	*font-size:108%;
+	line-height:100%;
+}
+
+
+/* ---------------------------------------------------------------- *
+	相対設定
+ * ---------------------------------------------------------------- */
+
+.txt10 {font-size:77%;} /* for setting 10px */
+.txt11 {font-size:85%;} /* for setting 11px */
+.txt12 {font-size:93%;} /* for setting 12px */
+.txt13 {font-size:100%;} /* for setting 13px */
+.txt14 {font-size:108%;} /* for setting 14px */
+.txt15 {font-size:116%;} /* for setting 15px */
+.txt16 {font-size:123.1%;} /* for setting 16px */
+.txt17 {font-size:131%;} /* for setting 17px */
+.txt18 {font-size:138.5%;} /* for setting 18px */
+.txt19 {font-size:146.5%;} /* for setting 19px */
+.txt20 {font-size:153.9%;} /* for setting 20px */
+.txt21 {font-size:161.6%;} /* for setting 21px */
+.txt22 {font-size:167%;} /* for setting 22px */
+.txt23 {font-size:174%;} /* for setting 23px */
+.txt24 {font-size:182%;} /* for setting 24px */
+.txt25 {font-size:189%;} /* for setting 25px */
+.txt26 {font-size:197%;} /* for setting 26px */
+
+
+
+/* ---------------------------------------------------------------- *
+	基本リンクテキスト設定
+ * ---------------------------------------------------------------- */
+ 
+a,a:link {
+  color:#1D7CD3;
+  text-decoration: underline;
+}
+a:visited {
+  color: #1D7CD3;
+  text-decoration: underline;
+}
+a:hover {
+  color: #0099FF;
+  text-decoration: underline;
+}
+a:active {
+  color: #0099FF;
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------- *
+	基本要素のテキスト
+ * ---------------------------------------------------------------- */
+* {
+	font-family: Meiryo, "メイリオ", "Hiragino Kaku Gothic Pro W3", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", Osaka, verdana, arial, sans-serif;
+	_font-family: "ＭＳ Ｐゴシック",arial,helvetica,clean,sans-serif;
+    color: #444444;
+}
+p {
+	line-height: 1.6;
+}
+ul, ol, dl {
+	line-height: 1.3;
+}
+address {
+	font-style: normal; 
+	font-size: 93%;
+}
+/* ---------------------------------------------------------------- *
+	見出しテキスト設定
+ * ---------------------------------------------------------------- */
+
+h1 {
+  font-size: 123.1%;
+}
+h2 {
+  font-size: 108%;
+}
+h3 {
+  font-size: 100%;
+}
+h4 {
+  font-size: 100%;
+}
+h5 {
+  font-size: 93%;
+}
+h6 {
+  font-size: 93%;
+}
+
+
