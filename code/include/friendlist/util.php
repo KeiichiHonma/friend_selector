@@ -70,5 +70,24 @@ class util
     static public function checkUnderScore($flid){
         return is_numeric($flid) ? $flid :false;
     }
+
+    static public function isAllCheckbox($display_array,$cookie_string){
+        if(isset($cookie_string)){
+            $keys = array_keys($display_array);//表示側
+            $cookies = explode(',',$cookie_string);//クッキー側
+            $keys_count = count($keys);
+            $cookies_count = count($cookies);
+            if($keys_count > $cookies_count){
+                //全チェックする必要なし
+            }else{
+                $result = array_intersect($keys, $cookies);//表示側が全てクッキーに入っている場合、結果の配列数は表示側と同じになる
+                if(count($result) == $keys_count){
+                    return 'checked';
+                }
+            }
+        }
+        return '';
+    }
+
 }
 ?>

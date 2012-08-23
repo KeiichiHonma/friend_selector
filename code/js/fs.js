@@ -1,3 +1,10 @@
+var dumpObj = function(o){
+    var str = "";
+    for(var i in o) {
+    str = str + o[i];
+    }
+    alert(str);
+} 
 function search_d(){
     var d = document.getElementById("search").style.display
     if(d == 'none'){
@@ -10,10 +17,9 @@ function search_d(){
     }
 }
 
-function jumpMenu(selObj,restore){
+function jumpMenu(selObj){
     if(selObj.options[selObj.selectedIndex].value == "") return false;
     location.href = selObj.options[selObj.selectedIndex].value;
-    if (restore) selObj.selectedIndex=0;
 }
 
 function findObj(n, d) {
@@ -24,41 +30,46 @@ function findObj(n, d) {
     if(!x && d.getElementById) x=d.getElementById(n); return x;
 }
 
-function selectFriendlist(selName,restore){
+function selectFriendlist(selName){
+    form_handle('index',true);
     var selObj = findObj(selName);
-    if (selObj) jumpMenu(selObj,restore);
+    if (selObj) jumpMenu(selObj);
 }
 
-function form_stop(){
-    document.getElementById('sex_form').sex[0].disabled = true;
-    document.getElementById('sex_form').sex[1].disabled = true;
-    document.getElementById('sex_form').sex[2].disabled = true;
-    document.getElementById('relationship_form').relationship[0].disabled = true;
-    document.getElementById('relationship_form').relationship[1].disabled = true;
-    document.getElementById('relationship_form').relationship[2].disabled = true;
-    document.getElementById('relationship_form').relationship[3].disabled = true;
-    document.getElementById('relationship_form').relationship[4].disabled = true;
-    document.getElementById('relationship_form').relationship[5].disabled = true;
-    document.getElementById('relationship_form').relationship[6].disabled = true;
-    document.getElementById('relationship_form').relationship[7].disabled = true;
-    document.getElementById('relationship_form').relationship[8].disabled = true;
-    document.getElementById('relationship_form').relationship[9].disabled = true;
-    document.getElementById('flid_form').flid.disabled = true;
-    document.getElementById('add').disabled = true;
-    document.getElementById('in').disabled = true;
-    document.getElementById('out').disabled = true;
-    stop_frid_class('a');
-    stop_frid_class('input');
+function form_handle(page,bl){
+    document.getElementById('friendlist_form').friendlist.disabled = bl;
+    document.getElementById('add').disabled = bl;
+    if(page == 'view'){
+        document.getElementById('sex_form').sex[0].disabled = bl;
+        document.getElementById('sex_form').sex[1].disabled = bl;
+        document.getElementById('sex_form').sex[2].disabled = bl;
+        document.getElementById('relationship_form').relationship[0].disabled = bl;
+        document.getElementById('relationship_form').relationship[1].disabled = bl;
+        document.getElementById('relationship_form').relationship[2].disabled = bl;
+        document.getElementById('relationship_form').relationship[3].disabled = bl;
+        document.getElementById('relationship_form').relationship[4].disabled = bl;
+        document.getElementById('relationship_form').relationship[5].disabled = bl;
+        document.getElementById('relationship_form').relationship[6].disabled = bl;
+        document.getElementById('relationship_form').relationship[7].disabled = bl;
+        document.getElementById('relationship_form').relationship[8].disabled = bl;
+        document.getElementById('relationship_form').relationship[9].disabled = bl;
+        if(document.getElementById('flid_form') != null) document.getElementById('flid_form').flid.disabled = bl;
+        if(document.getElementById('gid_form') != null) document.getElementById('gid_form').gid.disabled = bl;
+        document.getElementById('in').disabled = bl;
+        document.getElementById('out').disabled = bl;
+        flid_handle('a',bl);
+        flid_handle('input',bl);
+    }
 }
 
-function stop_frid_class(tgname) { 
+function flid_handle(tgname,bl) { 
     var tag = document.getElementsByTagName(tgname);
          for (var i=0; i<tag.length; i++){
             var clname_ie = tag[i].getAttribute('className');
             var clname = tag[i].getAttribute('class');
             
             if( clname == 'grid-page-input' || clname == 'grid-page-start' || clname == 'grid-page-prev' || clname == 'grid-page-info' || clname == 'grid-page-next' || clname == 'grid-page-end' || clname_ie == 'grid-page-input' ||  clname_ie == 'grid-page-start' || clname_ie == 'grid-page-prev' || clname_ie == 'grid-page-info' || clname_ie == 'grid-page-next' || clname_ie == 'grid-page-end' ){
-                tag[i].disabled = true;
+                tag[i].disabled = bl;
             }
          }
     }

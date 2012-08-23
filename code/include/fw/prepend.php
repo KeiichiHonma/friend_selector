@@ -5,6 +5,7 @@ header("P3P: CP='UNI CUR OUR'");
 require_once('fw/container.php');
 $con = new container();
 
+//app id
 if($con->isDebug){
     //hermes
     $appId = '284194714999778';
@@ -15,31 +16,31 @@ if($con->isDebug){
     $secret = '28196746b471ad2d988d3028dd70f4fc';
 }
 $con->t->assign('appId',$appId);
+
+//permissions facebook側からの戻り値と合わせるため形が特殊
+//$permissions[] = array('read_friendlists'=>'1','manage_friendlists'=>'1','user_birthday'=>'1','friends_birthday'=>'1','user_groups'=>'1','friends_groups'=>'1','user_relationships'=>'1','friends_relationships'=>'1');
+//$permissions_comma = implode(',',array_keys($permissions[0]));
+
 require 'facebook-facebook-php-sdk/src/facebook.php';
 $facebook = new Facebook(array(
   'appId'  => $appId,
-  'secret' => $secret
+  'secret' => $secret,
+  'cookie' => true, // enable optional cookie support
 ));
 
-//ページ遷移でクッキー削除
-if(isset($_GET['c']) && $_GET['c'] == 'd'){
-    if(isset($_COOKIE[IN_IDS])) setcookie(IN_IDS,'',-1,'/');
-    if(isset($_COOKIE[NEW_IN_IDS])) setcookie(NEW_IN_IDS,'',-1,'/');
-    if(isset($_COOKIE[OUT_IDS])) setcookie(OUT_IDS,'',-1,'/');
-    if(isset($_COOKIE[NEW_OUT_IDS])) setcookie(NEW_OUT_IDS,'',-1,'/');
-}
-
-function auth($facebook,$path = '/'){
+function auth($facebook,$path = '/',$isMost = false){
+    global $con;
     $user = $facebook->getUser();
 
-    if (!$user) {
-
+    if (!$user|| $isMost == true) {
         $par = array(
             //'scope' => 'publish_stream,read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_likes,friends_likes',
-            'scope' => 'read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_groups,friends_groups,user_relationships,friends_relationships',
-            'redirect_uri' => FSURL.$path
+            'scope' => $con->permissions_comma,
+            'redirect_uri' => FSURLSSL.$path
         );
         $fb_login_url = $facebook->getLoginUrl($par);
+        //header("Location: ".$fb_login_url);
+        //die();
         echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
         exit();
     }
@@ -57,7 +58,7 @@ $column_comma = implode(',',$column);
 
 //ページング
 $rows = 50;//最大
-$cols = 4;//name pic_squareは同一カラム
+$cols = 5;//name pic_squareは同一カラム
 
 //設定
 $sex = array
@@ -80,4 +81,7 @@ $relationship_status = array
 'divorced'=>'離婚'
 );
 $con->t->assign('relationship_status',array_chunk($relationship_status,3,true));
+$con->readyPostCsrf();
+$con->checkPostCsrf();
+
 ?>

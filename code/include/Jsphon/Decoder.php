@@ -105,6 +105,7 @@ class Jsphon_Decoder
         if($tknz->nextToken()) {
             $count = count($api_setting);
             if(!$is_multiquery && count($api_setting) == 1){
+                $this->api_setting_decoder = $api_setting;
                 $result = $this->_decodeJSValueEx($tknz);
             }elseif($is_multiquery && count($api_setting) > 0){
                 $this->api_setting_decoder = $api_setting;

@@ -4,17 +4,12 @@ class csrf
     public static function getToken()
     {
         global $con;
-/*        $csrf_ticket = md5(uniqid( rand(), true ) );
-        $con->session->set( 'csrf_ticket', $csrf_ticket );*/
         $csrf_ticket = $con->session->get( 'csrf_ticket' );
         if ( ! $csrf_ticket )
         {
             $csrf_ticket = md5(uniqid( rand(), true ) );
             $con->session->set( 'csrf_ticket', $csrf_ticket );
         }
-/*var_dump($csrf_ticket);
-var_dump($_SESSION['csrf_ticket']);*/
-        global $con;
         $con->t->assign('csrf_ticket',$csrf_ticket);
         return $csrf_ticket;
     }
@@ -24,8 +19,6 @@ var_dump($_SESSION['csrf_ticket']);*/
 
         global $con;
         $csrf_ticket = $con->session->get( 'csrf_ticket' );
-/*var_dump($token);
-var_dump($csrf_ticket);*/
         if ( $csrf_ticket )
         {
             if ( strcmp( trim( $csrf_ticket ), trim( $token ) ) === 0 )

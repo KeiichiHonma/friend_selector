@@ -763,11 +763,11 @@ die();
     // generic application level parameters
     $params['api_key'] = $this->getAppId();
     $params['format'] = 'json-strings';
-
     $result = Jsphon::decode($this->_oauthRequest(
       $this->getApiUrl($params['method']),
       $params
     ),$this->api_setting, $this->is_multiquery,true);
+//var_dump($result);
 
 /*    $result = json_decode($this->_oauthRequest(
       $this->getApiUrl($params['method']),
@@ -831,6 +831,7 @@ die();
       $this->getUrl($domainKey, $path),
       $params
     ),$this->api_setting, $this->is_multiquery,true);
+    
 /*    $result = json_decode($this->_oauthRequest(
       $this->getUrl($domainKey, $path),
       $params
@@ -1160,20 +1161,40 @@ die();
    */
   protected function throwAPIException($result) {
     $e = new FacebookApiException($result);
+
     switch ($e->getType()) {
       // OAuth 2.0 Draft 00 style
       case 'OAuthException':
+        //var_dump('OAuthException');
         // OAuth 2.0 Draft 10 style
       case 'invalid_token':
+        //var_dump('invalid_token');
         // REST server errors are just Exceptions
       case 'Exception':
-        $message = $e->getMessage();
+        //var_dump('Exception');
         if ((strpos($message, 'Error validating access token') !== false) ||
             (strpos($message, 'Invalid OAuth access token') !== false) ||
             (strpos($message, 'An active access token must be used') !== false)
         ) {
           $this->destroySession();
         }
+        
+        //Requires user session
+        if($result['error_code'] == 102){
+            //$this->destroySession();
+
+            //global $con;
+            //$con->safeExitRedirect('',TRUE);
+/*            $par = array(
+                //'scope' => 'publish_stream,read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_likes,friends_likes',
+                'scope' => $con->permissions_comma,
+                'redirect_uri' => FSURL.$path
+            );
+            $fb_login_url = $this->getLoginUrl($par);
+            echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
+            exit();*/
+        }
+
         break;
     }
 

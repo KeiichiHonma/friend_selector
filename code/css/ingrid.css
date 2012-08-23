@@ -85,12 +85,14 @@ table.datagrid th  {
 .grid-row-hover {
     /*background-color: #FFFFBB;*/
     background-color: #FFF9E6;
+    /*background: #dff3c4;*/
 }
 .grid-row-sel {
-    background-color: #FFEABB;
-    border-bottom: 1px solid #333333;
+    /*background-color: #FFEABB;*/
+    /*border-bottom: 1px solid #333333;*/
 }
 .grid-row-sel td {
+    background-color: #FFEABB;
     color: #990000;
 }
 table.datagrid td.grid-custom-col {

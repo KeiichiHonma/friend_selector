@@ -134,24 +134,66 @@ if(isset($_GET['flid']) && is_numeric($_GET['flid'])){
     $isList = true;
 }
 
-//指定リスト内の全ての友達
+//group 追加でグループで絞り込み
+$isGroup = false;
+if(isset($_GET['gid']) && is_numeric($_GET['gid'])){
+    $isGroup = true;
+}
+
+//指定リスト内の全ての友達/////////////////////////////////////////////
+
+//query番号のチェック
+if($isList && $isGroup){
+    $list_query_no = 'q1';
+    $group_query_no = 'q2';
+    $use_query_no = 'q2';
+    $user_query_no = 'q3';
+    $result_no = 2;
+    $facebook->api_setting = array('','','uid');//index変更
+}elseif($isList && !$isGroup){
+    $list_query_no = 'q1';
+    $use_query_no = 'q1';
+    $user_query_no = 'q2';
+    $result_no = 1;
+    $facebook->api_setting = array('','uid');//index変更
+}elseif(!$isList && $isGroup){
+    $list_query_no = 'q1';
+    $group_query_no = 'q2';
+    $use_query_no = 'q2';
+    $user_query_no = 'q3';
+    $result_no = 2;
+    $facebook->api_setting = array('','','uid');//index変更
+}
+
+//query生成
 if($isList){
+    $queries[$list_query_no] = 'SELECT uid,flid FROM friendlist_member WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' ) AND flid = '.$_GET['flid'];
+}else{
+    //$queries[$list_query_no] = 'SELECT uid,flid FROM friendlist_member WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' )';
+    $queries[$list_query_no] = 'SELECT uid,flid FROM friendlist_member WHERE flid = '.$flid;
+}
+
+if($isGroup){
+    $queries[$group_query_no] = 'select uid,gid from group_member WHERE gid = '.$_GET['gid'].' AND uid != me() AND uid in ( SELECT uid FROM #'.$list_query_no.' )';
+}
+
+if($isList || $isGroup){
+    $queries[$user_query_no] = 'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid FROM #'.$use_query_no.' ) '.$andQuery.' ORDER BY '.$order;
+    ksort($queries);
+
     $facebook->is_multiquery = TRUE;
     $result = $facebook->api
     (
         array
         (
             'method'=>'fql.multiquery',
-            'queries'=>array
-            (
-                'q1' =>'SELECT uid,flid FROM friendlist_member WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' ) AND flid = '.$_GET['flid'],
-                'q2' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid FROM #q1 ) '.$andQuery.' ORDER BY '.$order
-            ),
+            'queries'=>$queries,
             'access_token'=>$access_token
         )
     );
-    $friendlist_friend = $result[1]['fql_result_set'];
+    $friendlist_friend = $result[$result_no]['fql_result_set'];
 }else{
+    $facebook->api_setting = array('uid');//index変更
     $friendlist_friend = $facebook->api(array('method' => 'fql.query',
                                    'query' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' ) '.$andQuery.' ORDER BY '.$order,
                                    'access_token' =>$access_token,
@@ -160,6 +202,7 @@ if($isList){
 $index = $page-1;
 $count_friendlist_friend = count($friendlist_friend);
 
+$is_zero = false;
 if( $count_friendlist_friend != 0){
     //クッキー削除
     if(isset($_COOKIE[OUT_IDS])){
@@ -170,41 +213,60 @@ if( $count_friendlist_friend != 0){
                 $new_out_ids[] = $value['uid'];
             }
         }
+        $new_out_ids_string = '';
         if(count($new_out_ids) > 0){
-            //setcookie(OUT_IDS,implode(',',$new_out_ids),0,'/');
-            setcookie(NEW_OUT_IDS,implode(',',$new_out_ids),0,'/');
+            $new_out_ids_string = implode(',',$new_out_ids);
+            setcookie(NEW_OUT_IDS,$new_out_ids_string,0,'/');
         }else{
-            //setcookie(OUT_IDS,'',0,'/');
-            setcookie(NEW_OUT_IDS,'',0,'/');
+            //表示する友達はいるが、クッキーの中にある友達以外であった場合。なのでblankではない
+            setcookie(NEW_OUT_IDS,'blank',0,'/');
         }
     }
-    
-    $friendlist_friend_chunk = array_chunk($friendlist_friend,$rows);
+    $friendlist_friend_chunk = array_chunk($friendlist_friend,$rows,true);
     //描画の時は数が減る可能性あり
     $rows = count($friendlist_friend_chunk[$index]);
-    
-    //html
-    print '<table>';
-    print '<tbody>';
-    for ($i=0; $i<$rows; $i++){
-        print '<tr id='.$friendlist_friend_chunk[$index][$i]['uid'].'>';
-        print '<td class="first"><img src='.'"'.$friendlist_friend_chunk[$index][$i]['pic_square'].'" width="25" height="25" />'.$friendlist_friend_chunk[$index][$i]['name'].'</td><td>'.util::makeSexText($friendlist_friend_chunk[$index][$i]['sex']).'</td><td>'.util::makeAgeText($friendlist_friend_chunk[$index][$i]['birthday_date']).'</td><td>'.util::makeRelationshipStatusText($friendlist_friend_chunk[$index][$i]['relationship_status']).'</td>';
-        print '</tr>';
+    if($rows != 0){
+        //html
+        print '<table>';
+        print '<tbody>';
+        $i = 1;
+        foreach ($friendlist_friend_chunk[$index] as $uid => $value){
+            print '<tr id="'.$uid.'" name="tr_1">';
+            print '<td><input type="checkbox" name="chk1['.$i.']" /></td>';
+            print '<td class="first"><img src='.'"'.$value['pic_square'].'" width="25" height="25" />'.$value['name'].'</td><td>'.util::makeSexText($value['sex']).'</td><td>'.util::makeAgeText($value['birthday_date']).'</td><td>'.util::makeRelationshipStatusText($value['relationship_status']).'</td>';
+            print '</tr>';
+            $i++;
+        }
+        print '<script type="text/javascript">_ingrid_table1_0_total = '.$count_friendlist_friend.';isSearch = true;form_handle(\'view\',false);</script>';
+        //table1側 全チェック確認 //NEW_OUT_IDSでチェック
+        if(util::isAllCheckbox($friendlist_friend_chunk[$index],$new_out_ids_string) == 'checked'){
+            print '<script type="text/javascript">$(function(){doAllCheck(1);});</script>';
+        }else{
+            print '<script type="text/javascript">$(function(){resetAllCheck(1);});</script>';
+        }
+        print '</tbody>';
+        print '</table>';
+    }else{
+        $is_zero = true;
     }
-    print '<script type="text/javascript">_ingrid_table1_0_total = '.$count_friendlist_friend.';</script>';
-    print '</tbody>';
-    print '</table>';
 }else{
+    if(isset($_COOKIE[OUT_IDS])){
+        //表示する友達がいないが、クッキーがあるため見えないPOSTが発生するため、blankで処理を止める
+        setcookie(NEW_OUT_IDS,'blank',0,'/');
+    }
+    $is_zero = true;
+}
+if($is_zero){
     //ない場合
     //html
     print '<table>';
     print '<tbody>';
-    print '<tr>';
-    print '<td>表示する友達がありません</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>';
+    print '<tr id="blank1">';
+    print '<td><img src="/img/exclamation.png" border="0"></td><td>表示する友達がありません</td><td></td><td></td><td></td>';
     print '</tr>';
-    print '<script type="text/javascript">_ingrid_table1_0_total = 0;</script>';
+    print '<script type="text/javascript">_ingrid_table1_0_total = 0;isSearch = true;document.getElementById(\'allCheck1\').disabled = true;form_handle(\'view\',false);</script>';
+    print '<script type="text/javascript">$(function(){resetAllCheck(1);});</script>';
     print '</tbody>';
     print '</table>';
 }
-
 ?>

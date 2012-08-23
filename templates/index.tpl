@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
 <script type="text/javascript" charset="utf-8" src="/js/jquery-1.7.2.min.js"></script>
 <link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
 <link type="text/css" href="/css/jquery.treeview.css" rel="stylesheet" media="all" />
@@ -11,6 +11,7 @@
 $(function(){ldelim}
     $('#add').click(function() {ldelim}
         if( document.getElementById('add_friendlist_name').value != ''){ldelim}
+            form_handle('index',true);
             document.getElementById('add').disabled = true;
             // spin実行
             document.getElementById('add_spin').style.display='block';
@@ -23,6 +24,7 @@ $(function(){ldelim}
 </script>
 
 <title>{$smarty.const.APP_NAME}</title>
+</head>
 <body class="bg">
 {include file="include/common/headbar.inc"}
 <table width="100%" cellpadding="5" cellspacing="0" style="border-collapse: collapse;" bgcolor="#ffffff">
@@ -37,15 +39,13 @@ $(function(){ldelim}
             <td width="90%" id="tree_view_right" class="wrap-friendlist-select-bottom">
                 <div class="friendlist-name"><img src="/img/group.png">{$smarty.const.APP_NAME}について</div>
                 <ul class="explain">
-                <li>現在ベータ公開してます。動きがおかしかった等ありましたら連絡ください。<a href="https://www.facebook.com/keiichi.honma2" target="_parent">@Keiichi Honma</a></li>
-                <li>facebookの友達リストを使いやすくしたアプリです。</li>
-                <li>友達リストとは近況アップデートの公開範囲として利用できる便利なリストです。<br /><img src="/img/explain/ex1.gif"></li>
-                <li>友達の種類によって見せる近況を選択することができるようになります。</li>
-                <li>友達の人数が増えてきた場合、facebookの友達リスト管理では追加、削除等が煩雑であり、<br />その問題を解決するアプリです。</li>
+                <li>facebookの友達リストを使いやすくしたアプリです。<br />友達リストとは近況アップデートの公開範囲として利用できる便利なリストです。<br /><img src="/img/explain/ex1.gif"></li>
+                <li>facebook側では提供していない<strong>一括追加、一括削除機能を提供</strong>している友達リスト管理アプリです。<br />また、絞り込み条件を指定する機能もあるため、任意の友達まですぐに辿り着くことが可能です。</li>
+                {*<li><strong>1000人規模の追加、削除を数秒で処理</strong>できます。<br />友達数が多くて既存の友達リスト機能を使うことを諦めていた人にオススメです。<br /><span>※facebook提供の友達リスト機能は1000人の追加と削除に1000回のクリックが必要です・・・</span></li>*}
                 {*<li>友達が1,000人以上の方は現時点で制限をかけています。<br />ご要望あれば制限解除するかもしれません。連絡ください。</li>*}
                 <li>使い方はシンプルで「友達リストを選ぶ→友達を条件で絞る→追加、削除」<br /><img src="/img/explain/ex2.jpg"></li>
-                <li>一度に追加、削除できる人数は25人までです。facebookに負荷をかけ過ぎないようにする仕様です。<br />状況を見て制限を柔らかくするかもしれません。</li>
-                <li>友達リストの追加は可能ですが、削除機能は実装していません。</li>
+                {*<li>友達リストの追加は可能ですが、削除機能は実装していません。</li>*}
+                <li>不明な動作等ありましたら連絡ください。<a href="https://www.facebook.com/keiichi.honma2" target="_parent">81@Keiichi Honma</a></li>
                 </ul>
             </td>
         </tr>

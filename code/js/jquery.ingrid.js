@@ -27,29 +27,28 @@
  *            page changed callback
  *
  */
- var dumpObj = function(o){
-  var str = "";
-  for(var i in o) {
-    //str = str + "\n" + i + "\t"+ o[i];
-    str = str + o[i];
-  }
-  //alert(str);
-//document.write(str);
-} 
-
-
+var is_max_select = true;
+var max_select = 50;
+var max_select_message = '一度に移動できる人数は'+max_select+'人までです。'
+var table1_id = '_ingrid_table1_0';
+var table1_cookie_name = '_ingrid_table1_0_rows';
+var table1_new_cookie_name = '_ingrid_table1_0_new_rows';
+var table2_id = '_ingrid_table2_0';
+var table2_cookie_name = '_ingrid_table2_0_rows';
+var table2_new_cookie_name = '_ingrid_table2_0_new_rows';
+var isSearch = false;
 
 jQuery.fn.ingrid = function(o){
     var cfg = {
         height: 600,                             // height of our datagrid (scrolling body area)
-        max_select:25,
+        //max_select:50,
         savedStateLoad : false,                    // when Ingrid is initialized, should it load data from a previously saved state?
         initialLoad : false,                    // when Ingrid is initialized, should it load data immediately?
 
         //colWidths: [225,225,225,225],            // width of each column
-        colWidths: [150,30,30,100],            // width of each column
-        minColWidth: 30,                        // minimum column width
-        headerHeight: 30,                        // height of our header
+        colWidths: [20,150,30,25,100],            // width of each column
+        minColWidth: 20,                        // minimum column width
+        headerHeight: 25,                        // height of our header
         headerClass: 'grid-header-bg',            // header bg
         headerClassB: 'grid-header-bg-b',            // header bg
         resizableCols: false,                    // make columns resizable via drag + drop
@@ -63,7 +62,7 @@ jQuery.fn.ingrid = function(o){
         onRowSelect: function(tr, selected){},    // function to call when row is clicked
         
         /* sorting */
-        sorting: true,
+        sorting: false,
         colSortParams: [],                        // value to pass as sort param when header clicked (i.e. '&sort=param') ex: ['col1','col2','col3','col4']
         sortAscParam: 'asc',                    // param passed on ascending sort (i.e. '&dir=asc)
         sortDescParam: 'desc',                    // param passed on ascending sort (i.e. '&dir=desc)
@@ -140,6 +139,7 @@ jQuery.fn.ingrid = function(o){
                     .extend({
                         cols : cols
                     });
+
     // initialize columns
     h.find('th').each(function(i){
                                                          
@@ -169,7 +169,6 @@ jQuery.fn.ingrid = function(o){
 
                 var params = { sort : key, dir : dir };                    
                 if (p) jQuery.extend(params, { page : p.getPage() } );
-//dumpObj(params);
                 g.load( params, function(){                        
                     var cls = col_label.hasClass(cfg.sortNoneClass) ? 
                                             ( cfg.sortDefaultDir == cfg.sortAscParam ? cfg.sortAscClass : cfg.sortDescClass ) :
@@ -188,6 +187,7 @@ jQuery.fn.ingrid = function(o){
                 });
             });
         }
+        
         
         // replace contents of <th>
         jQuery(this).html(col_label);
@@ -395,6 +395,7 @@ jQuery.fn.ingrid = function(o){
         // last page button & info (if we know total records)
         var pb4;
         if (cfg.totalRecords >= 0) {
+            if(totp == 0) totp = 1;
             pinfo.html('Page ' + pinfo.html() + ' of ' + totp);
             var pb4        = jQuery('<a href="#">&raquo;</a>').addClass(cfg.pageEndClass).click(function(){
                                         var _p = p.getPage(); _p++;
@@ -452,6 +453,7 @@ jQuery.fn.ingrid = function(o){
                                                 }
                                                 pload.addClass(cfg.pageLoadingDoneClass);
                                             });
+                                            
                                             return this;
                                         }
                                 });
@@ -557,19 +559,76 @@ jQuery.fn.ingrid = function(o){
                                         }
                                 });
 
+        var gid_select         = jQuery('<div />')
+                                .addClass(cfg.pageToolbarClass)
+                                .height(cfg.pageToolbarHeight)
+                                .width(b.width())
+                                .extend({                                        
+                                        setGid : function(gid_val){
+                                            var input = this.find('input.' + cfg.pageInputClass);
+                                            pload.removeClass(cfg.pageLoadingDoneClass);
+                                            g.load( {gid : gid_val}, function(){
+                                                input.val(gid_val);
+                                                if(_ingrid_table2_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table2_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table2_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table2_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                if(_ingrid_table1_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table1_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table1_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table1_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                pload.addClass(cfg.pageLoadingDoneClass);
+                                            });
+                                            
+                                            
+                                            
+                                            return this;
+                                        }
+                                });
+
         // start page button
-        $( 'input[id="sex"]:radio' ).change( function() {  
+        $( 'input[name="sex"]:radio' ).change( function() {
+            form_handle('view',true);
             var sex_val = $( this ).val();
             sex_radio.setSex(sex_val);
+            
         });
-        $( 'input[id="relationship"]:radio' ).change( function() {  
+        $( 'input[name="relationship"]:radio' ).change( function() {  
+            form_handle('view',true);
             var relationship_val = $( this ).val();
             relationship_radio.setRelationship(relationship_val);
         });
         
         jQuery('select#flid').change(function(){
+            form_handle('view',true);
             var flid_val = jQuery(this).val();
             flid_select.setFlid(flid_val);
+        });
+
+        jQuery('select#gid').change(function(){
+            form_handle('view',true);
+            var gid_val = jQuery(this).val();
+            gid_select.setGid(gid_val);
         });
     }
 
@@ -603,6 +662,7 @@ jQuery.fn.ingrid = function(o){
     g.extend({
         
         selected_ids : [],
+        selected_new_ids : [],
         
         load : function(params, cb) {
             var data = jQuery.extend(cfg.extraParams, params);
@@ -638,6 +698,8 @@ jQuery.fn.ingrid = function(o){
                     if (cfg.dataType == 'html') {
                         var $tbl = jQuery(result);
                         var row  = $tbl.find('tr:first');
+                        //var row  = $tbl.find('tbody tr:first');
+                        //alert(jQuery(row).find('td').length);
                         if ( jQuery(row).find('td').length == cfg.colWidths.length ) {
                             // setting width on first row keeps it from "blinking"
                             jQuery(row).find('td').each(function(i){
@@ -646,6 +708,7 @@ jQuery.fn.ingrid = function(o){
                                 jQuery(this).width( g.getHeader(i).css('width') )                                
                             });
                             // now swap the tbody's
+                            //b.find('thead').html($tbl.find('thead').html());
                             b.find('tbody').html($tbl.find('tbody').html());
                             g.initStylesAndWidths();
                             
@@ -728,20 +791,23 @@ jQuery.fn.ingrid = function(o){
         saveSelectedRows : function() {
             var isSave = true;
             if (jQuery.cookie) {
-                if(this.attr('id') == '_ingrid_table1_0' && cfg.max_select < g.selected_ids.length){
+                if(is_max_select && this.attr('id') == '_ingrid_table1_0' && max_select < g.selected_ids.length){
                     isSave = false;
-                    alert('一度に選択できる人数は'+cfg.max_select+'人までです。');
+                    alert(max_select_message);
                 }
                 
-                if(this.attr('id') == '_ingrid_table2_0' && cfg.max_select < g.selected_ids.length){
+                if(is_max_select && this.attr('id') == '_ingrid_table2_0' && max_select < g.selected_ids.length){
                     isSave = false;
-                    alert('一度に選択できる人数は'+cfg.max_select+'人までです。');
+                    alert(max_select_message);
                 }
                 
                 if(isSave == true){
                     //var row_ids        = g.getSelectedRowIds();
                     var row_ids = g.selected_ids;
+                    var row_new_ids = g.selected_new_ids;
                     jQuery.cookie( this.attr('id') + '_rows', row_ids.join(','), {expires: cfg.cookieExpiresDays, path: cfg.cookiePath});
+                    if(isSearch) jQuery.cookie( this.attr('id') + '_new_rows', row_new_ids.join(','), {expires: cfg.cookieExpiresDays, path: cfg.cookiePath});
+                    //alert(row_new_ids);
                 }
                 
                 return isSave;
@@ -809,9 +875,12 @@ jQuery.fn.ingrid = function(o){
                 $(this).click();
             });
         },
-        
+            
         selectAll : function() {
             this.find("tbody tr").each(function() {
+                //alert(2);
+                //$("#check"+jQuery(this).attr('id')).attr('checked', true);
+                alert(jQuery(this).attr('id'))
                 $(this).attr("_selected", "false");
                 $(this).click();
             });
@@ -833,11 +902,17 @@ jQuery.fn.ingrid = function(o){
             if (jQuery.cookie) {
                 var str_ids = jQuery.cookie( this.attr('id') + '_rows' );
                 if (str_ids) row_ids = str_ids.split(',');
-                //alert(str_ids);
             }            
             return row_ids;
         },
-
+        getSavedNewRowIds : function() {
+            var new_row_ids = [];
+            if (jQuery.cookie) {
+                var str_new_ids = jQuery.cookie( this.attr('id') + '_new_rows' );
+                if (str_new_ids) new_row_ids = str_new_ids.split(',');
+            }            
+            return new_row_ids;
+        },
         // returns an array of IDs (saved in cookie)        
         returnSavedRowIds : function() {
             var id_string = '';
@@ -881,6 +956,7 @@ jQuery.fn.ingrid = function(o){
             
             // pre-selected rows
             g.selected_ids = g.getSavedRowIds();
+            g.selected_new_ids = g.getSavedNewRowIds();
 
             this.getRows().each(function(r){
                 
@@ -917,34 +993,77 @@ jQuery.fn.ingrid = function(o){
                 });
                 
                 // selection behaviour
-                if (cfg.rowSelection == true) {
+                if (cfg.rowSelection == true && jQuery(this).attr('id') != 'blank1' && jQuery(this).attr('id') != 'blank2') {
+                //if (cfg.rowSelection == true) {
                     jQuery(this).click(function() {
-
-                        
                         // test array state
                         isAlreadySelected = jQuery(this).attr('id') != undefined && jQuery.inArray(jQuery(this).attr('id'), g.selected_ids) != -1;
                         // test view state
                         if (jQuery(this).attr('_selected') && jQuery(this).attr('_selected') == 'true') {
                             //外す
+                            if(jQuery(this).attr('name') == 'tr_1'){
+                                var _e = $('input[type="checkbox"][name^="chk1"]', jQuery(this).children('td:first'));
+                                _e.attr('checked', false);
+                                $('.allCheck1').attr('checked', false);
+                            }else{
+                                var _e = $('input[type="checkbox"][name^="chk2"]', jQuery(this).children('td:first'));
+                                _e.attr('checked', false);
+                                $('.allCheck2').attr('checked', false);
+                            }
+                            
                             // switch to unselected state
                             jQuery(this).attr('_selected', 'false').removeClass(cfg.rowSelectedClass);
                             // remove from selected_ids array
                             if(isAlreadySelected)
                                 g.selected_ids.splice(jQuery.inArray(jQuery(this).attr('id'), g.selected_ids),1);
+                                if(isSearch) g.selected_new_ids.splice(jQuery.inArray(jQuery(this).attr('id'), g.selected_new_ids),1);
                         } else {
                             //選択
+                            if(jQuery(this).attr('name') == 'tr_1'){
+                                var _e = $('input[type="checkbox"][name^="chk1"]', jQuery(this).children('td:first'));
+                                _e.attr('checked', true);
+                            }else{
+                                var _e = $('input[type="checkbox"][name^="chk2"]', jQuery(this).children('td:first'));
+                                _e.attr('checked', true);
+                            }
+
+
                             // switch to selected state
                             jQuery(this).attr('_selected', 'true').addClass(cfg.rowSelectedClass);
                             // push to selected_ids array
                             if(!isAlreadySelected)
                                 g.selected_ids.push(jQuery(this).attr('id'));
+                                if(isSearch) g.selected_new_ids.push(jQuery(this).attr('id'));
                         }
                         
                         //クリックと同時に保存
                         if( g.saveSelectedRows() == false){
+                            _e.attr('checked', false);
                             jQuery(this).attr('_selected', 'false').removeClass(cfg.rowSelectedClass);
+                        }else{
+                            //保存の後all 判定
+                            var is_all = true;
+                            
+                            if(jQuery(this).attr('name') == 'tr_1'){
+                                var tr = $('#' + table1_id + ' tbody tr');//全行を取得
+                                for( var i=0,l=tr.length;i<l;i++ ){
+                                    isAlreadySelected = tr.eq(i).attr('id') != undefined && jQuery.inArray( tr.eq(i).attr('id'), g.selected_ids ) != -1;
+                                    if( !isAlreadySelected ){
+                                        is_all = false;
+                                    }
+                                }
+                                if(is_all) $('.allCheck1').attr('checked', true);
+                            }else if(jQuery(this).attr('name') == 'tr_2'){
+                                var tr = $('#' + table2_id + ' tbody tr');//全行を取得
+                                for( var i=0,l=tr.length;i<l;i++ ){
+                                    isAlreadySelected = tr.eq(i).attr('id') != undefined && jQuery.inArray( tr.eq(i).attr('id'), g.selected_ids ) != -1;
+                                    if( !isAlreadySelected ){
+                                        is_all = false;
+                                    }
+                                }
+                                if(is_all) $('.allCheck2').attr('checked', true);
+                            }
                         }
-                        
                         // callback
                         if (cfg.onRowSelect)
                             cfg.onRowSelect(this, (jQuery(this).attr('_selected') == 'true') );
@@ -954,11 +1073,21 @@ jQuery.fn.ingrid = function(o){
                     // (use table instead of str)
                     //if (jQuery(this).attr('id') && str_ids.indexOf( '|' + jQuery(this).attr('id') + '|' ) != -1) {
                     if (jQuery(this).attr('id')!=undefined && jQuery.inArray(jQuery(this).attr('id'), g.selected_ids) != -1) {
+                        
+                        if(jQuery(this).attr('name') == 'tr_1'){
+                            var _e = $('input[type="checkbox"][name^="chk1"]', jQuery(this).children('td:first'));
+                        }else{
+                            var _e = $('input[type="checkbox"][name^="chk2"]', jQuery(this).children('td:first'));
+                        }
+                        _e.attr('checked', true);
                         // switch to selected state
                         jQuery(this).attr('_selected', 'true').addClass(cfg.rowSelectedClass);
                         // push to selected_ids array
-                        if(jQuery(this).attr('id') == undefined || jQuery.inArray(jQuery(this).attr('id'), g.selected_ids) == -1)
+                        if(jQuery(this).attr('id') == undefined || jQuery.inArray(jQuery(this).attr('id'), g.selected_ids) == -1){
                             g.selected_ids.push(jQuery(this).attr('id'));
+                            if(isSearch) g.selected_new_ids.push(jQuery(this).attr('id'));
+                        }
+                            
                         // callback
                         if (cfg.onRowSelect)
                             cfg.onRowSelect(this, true);

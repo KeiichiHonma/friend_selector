@@ -7,6 +7,7 @@ require_once('fw/base.php');//template
 //require_once('type/logic.php');
 require_once('fw/sessionManager.php');
 require_once('fw/positionManager.php');
+require_once('fw/csrf.php');//csrf処理
 class container
 {
     public $db = null;
@@ -41,7 +42,11 @@ class container
     
     public $isSumitomoMode = FALSE;
     public $doc_root = FALSE;
-    
+
+    //permissions facebook側からの戻り値と合わせるため形が特殊
+    public $permissions = array(array('read_friendlists'=>'1','manage_friendlists'=>'1','user_birthday'=>'1','friends_birthday'=>'1','user_groups'=>'1','friends_groups'=>'1','user_relationships'=>'1','friends_relationships'=>'1'));
+    public $permissions_comma = '';
+
     function __construct($isSimple = FALSE){
         $this->t = new template();
         
@@ -71,25 +76,17 @@ class container
         //以下はシンプルモードでは呼ばない
         if(!$isSimple){
             $this->session = new sessionManager($cache);//セッション開始
-            
-            //$this->db = new database();
-
             $this->base = new base();
-/*            $this->area = new areaLogic();
-            $this->type = new typeLogic();
-
-            $this->t->assign('areas',$this->area->area_info);
-            $this->t->assign('types',$this->type->type_info);*/
-            
             $this->tail_number = time();
             $this->t->assign('tail_number',$this->tail_number);//末尾の数字
         }
+        
+        //権限
+        $this->permissions_comma = implode(',',array_keys($this->permissions[0]));
     }
 
     public function checkPostCsrf(){
-        require_once('fw/csrf.php');//csrf処理
-        $this->csrf = new csrf();
-        if(strcasecmp($_SERVER['REQUEST_METHOD'],'POST') === 0){
+        if(strcasecmp($_SERVER['REQUEST_METHOD'],'POST') === 0 && strcasecmp($_POST['fs_method'],'POST') === 0){
             $this->isPost = TRUE;
             //check
             $this->csrf->validateToken(@$_POST['csrf_ticket']);
@@ -97,6 +94,7 @@ class container
     }
 
     public function readyPostCsrf(){
+        $this->csrf = new csrf();
         $this->csrf->getToken();
     }
 
@@ -251,5 +249,20 @@ class container
         else if (IMAGETYPE_PNG == $type) return 'png';
         return false;
     }
+
+    //facebook権限チェック
+    public function diffPermissions($fql_permissions){
+        $result_array = array_intersect_assoc($this->permissions[0], $fql_permissions[0]);
+        return count($this->permissions[0]) == count($result_array) ? true : false;
+    }
+
+    public function checkPermissions($fql_permissions){
+        if( !$this->diffPermissions($fql_permissions) ){
+            require_once('fw/errorManager.php');
+            errorManager::throwError(E_CMMN_PERMISSIONS_ERROR);
+        }
+    }
+
+
 }
 ?>
