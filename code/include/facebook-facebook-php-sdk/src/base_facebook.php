@@ -1181,6 +1181,9 @@ die();
         
         //Requires user session
         if($result['error_code'] == 102){
+            $logoutUrl = $this->getLogoutUrl();
+            echo "<script type='text/javascript'>top.location.href = '$logoutUrl';</script>";
+            exit();
             //$this->destroySession();
 
             //global $con;
