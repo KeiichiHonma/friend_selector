@@ -46,7 +46,7 @@ jQuery.fn.ingrid = function(o){
         initialLoad : false,                    // when Ingrid is initialized, should it load data immediately?
 
         //colWidths: [225,225,225,225],            // width of each column
-        colWidths: [20,150,30,25,100],            // width of each column
+        colWidths: [20,160,25,25,90],            // width of each column
         minColWidth: 20,                        // minimum column width
         headerHeight: 25,                        // height of our header
         headerClass: 'grid-header-bg',            // header bg

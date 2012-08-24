@@ -1172,31 +1172,32 @@ die();
         // REST server errors are just Exceptions
       case 'Exception':
         //var_dump('Exception');
+        $message = $e->getMessage();
         if ((strpos($message, 'Error validating access token') !== false) ||
             (strpos($message, 'Invalid OAuth access token') !== false) ||
             (strpos($message, 'An active access token must be used') !== false)
         ) {
           $this->destroySession();
-        }
-        
-        //Requires user session
-        if($result['error_code'] == 102){
-            $logoutUrl = $this->getLogoutUrl();
-            echo "<script type='text/javascript'>top.location.href = '$logoutUrl';</script>";
-            exit();
-            //$this->destroySession();
-
-            //global $con;
+            global $con;
             //$con->safeExitRedirect('',TRUE);
-/*            $par = array(
+            $par = array(
                 //'scope' => 'publish_stream,read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_likes,friends_likes',
                 'scope' => $con->permissions_comma,
-                'redirect_uri' => FSURL.$path
+                'redirect_uri' => FSURLSSL.$path
             );
             $fb_login_url = $this->getLoginUrl($par);
             echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
-            exit();*/
+            exit();
         }
+        $this->sendError($e);
+        require_once('fw/errorManager.php');
+        errorManager::throwError(E_CMMN_FB_EXCEPTION_ERROR);
+        //Requires user session
+/*        if($result['error_code'] == 102){
+            $logoutUrl = $this->getLogoutUrl();
+            echo "<script type='text/javascript'>top.location.href = '$logoutUrl';</script>";
+            exit();
+        }*/
 
         break;
     }
@@ -1204,6 +1205,24 @@ die();
     throw $e;
   }
 
+    protected function sendError($e){
+        //メール送信///////////////////////////
+        require_once('fw/mailManager.php');
+        $mailManager = new mailManager();
+
+        $body = '';
+        $body .= "title----------------------------------------------------\n\n";
+        $body .= 'URL : '.$_SERVER['SCRIPT_NAME']."\n";
+        if(isset($_SERVER['HTTP_REFERER'])) $body .= 'REFERER : '.$_SERVER['HTTP_REFERER']."\n";
+        $body .= 'USER_AGENT : '.$_SERVER['HTTP_USER_AGENT']."\n";
+        $body .= 'ADDR : '.$_SERVER['REMOTE_ADDR']."\n";
+        
+        $body .= "\n\nmessage----------------------------------------------------\n\n";
+        $dump = print_r($e, true);
+        $body .= "\n\ntrace------------------------------------------------------\n\n";
+        $body .= $dump;
+        $mailManager->sendHalt($body);
+    }
 
   /**
    * Prints to the error log if you aren't in command line mode.

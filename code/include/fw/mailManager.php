@@ -82,8 +82,7 @@ class mailManager
                 $body .= $key.$value."\n";
             }
         }
-        
-        $this->mail-> subject(LOCALE.':81:Halt');
+        $this->mail-> subject(LOCALE.':FS:Halt');
         $this->mail->text($body);
         $this->setFrom();
         $this->mail->send();

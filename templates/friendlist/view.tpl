@@ -10,7 +10,8 @@
 <!-- include ingrid lib -->
 <script type="text/javascript" src="/js/jquery.ingrid.js"></script>
 <!-- ingrid default stylesheet -->
-<link type="text/css" href="/css/ingrid.css" rel="stylesheet" media="all" />
+<link type="text/css" href="/css/ingrid.css?123" rel="stylesheet" media="all" />
+<link type="text/css" href="/css/list.css?234" rel="stylesheet" media="all" />
 <!-- to make ingrid save her state (selected rows, page number, column sort & direction); just include the jQ cookie plugin -->
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/spin.min.js"></script>
@@ -89,9 +90,6 @@ $(function(){ldelim}
     {rdelim});
 {rdelim});
 </script>
-
-<link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
-
 <title>フレンドセレクター</title>
 </head>
 <body class="bg">
@@ -146,7 +144,7 @@ $(function(){ldelim}
                             </fieldset>
                             {if $grouplist}
                             <fieldset>
-                                <legend><img src="/img/fb_group.png" width="16" height="16">所属グループで絞り込み<img src="/img/zoom.png" width="16" height="16"></legend>
+                                <legend><img src="/img/group_link.png" width="16" height="16">所属グループで絞り込み<img src="/img/zoom.png" width="16" height="16"></legend>
                                 <form id="gid_form"><select id="gid" name="gid">
                                 <option value="open">指定しない</option>
                                 {foreach from=$grouplist key="key" item="value" name="grouplist"}
@@ -181,7 +179,7 @@ $(function(){ldelim}
                  <tbody>
                     {if $friendlist_friend}
                     {foreach from=$friendlist_friend key="key" item="value" name="friendlist_friend"}
-                        <tr id="{$value.uid}" name="tr_1"><td><input type="checkbox"  name="chk1[{$smarty.foreach.friendlist_friend.iteration}]" /></td><td class="first"><img src="{$value.pic_square}" width="25" height="25" />{$value.name}</td><td>{$value.sex|makeSex}</td><td>{$value.birthday_date|makeAge}</td><td>{$value.relationship_status|makeRelationshipStatus}</td></tr>
+                        <tr id="{$value.uid}" name="tr_1"><td><input type="checkbox"  name="chk1[{$smarty.foreach.friendlist_friend.iteration}]" /></td><td class="first"><img src="{$value.pic_square}" width="20" height="20" />{$value.name}</td><td>{$value.sex|makeSex}</td><td>{$value.birthday_date|makeAge}</td><td>{$value.relationship_status|makeRelationshipStatus}</td></tr>
                     {/foreach}
                     {else}
                     <tr id="blank1"><td><img src="/img/exclamation.png" border="0"></td><td>表示する友達がありません</td><td></td><td></td><td></td></tr>
@@ -213,7 +211,7 @@ $(function(){ldelim}
                  <tbody>
                     {if $friendlist_diff_friend}
                     {foreach from=$friendlist_diff_friend key="key" item="value" name="friendlist_diff_friend"}
-                        <tr id="{$value.uid}" name="tr_2"><td><input type="checkbox" name="chk2[{$smarty.foreach.friendlist_diff_friend.iteration}]" /></td><td class="first"><img src="{$value.pic_square}" width="25" height="25" />{$value.name}</td><td>{$value.sex|makeSex}</td><td>{$value.birthday_date|makeAge}</td><td>{$value.relationship_status|makeRelationshipStatus}</td></tr>
+                        <tr id="{$value.uid}" name="tr_2"><td><input type="checkbox" name="chk2[{$smarty.foreach.friendlist_diff_friend.iteration}]" /></td><td class="first"><img src="{$value.pic_square}" width="20" height="20" />{$value.name}</td><td>{$value.sex|makeSex}</td><td>{$value.birthday_date|makeAge}</td><td>{$value.relationship_status|makeRelationshipStatus}</td></tr>
                     {/foreach}
                     {else}
                     <tr id="blank2"><td><img src="/img/exclamation.png" border="0"></td><td>表示する友達がありません</td><td></td><td></td><td></td></tr>

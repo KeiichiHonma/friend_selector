@@ -233,7 +233,7 @@ if( $count_friendlist_friend != 0){
         foreach ($friendlist_friend_chunk[$index] as $uid => $value){
             print '<tr id="'.$uid.'" name="tr_1">';
             print '<td><input type="checkbox" name="chk1['.$i.']" /></td>';
-            print '<td class="first"><img src='.'"'.$value['pic_square'].'" width="25" height="25" />'.$value['name'].'</td><td>'.util::makeSexText($value['sex']).'</td><td>'.util::makeAgeText($value['birthday_date']).'</td><td>'.util::makeRelationshipStatusText($value['relationship_status']).'</td>';
+            print '<td class="first"><img src='.'"'.$value['pic_square'].'" width="20" height="20" />'.$value['name'].'</td><td>'.util::makeSexText($value['sex']).'</td><td>'.util::makeAgeText($value['birthday_date']).'</td><td>'.util::makeRelationshipStatusText($value['relationship_status']).'</td>';
             print '</tr>';
             $i++;
         }

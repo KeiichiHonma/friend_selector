@@ -75,7 +75,7 @@ td,
     line-height:30px;
     font-size:20px;
     font-weight:bold;
-    height:32px;
+    height:34px;
 }
 
 .headbar img{
@@ -213,6 +213,12 @@ table.search td{
     text-align:left;
 }
 
+div#search input{
+    /*padding:1px 1px;*/
+    padding:0px;
+    margin:0px;
+}
+
 table.search td.arrow{
     vertical-align:middle;
     text-align:left;
@@ -282,4 +288,12 @@ ul.explain span{
 }
 .privacy_terms .detail{
     padding:0px 15px 0px 15px;
+}
+
+input#in {
+    padding:2px 1px;
+}
+
+input#out {
+    padding:2px 1px;
 }
