@@ -150,21 +150,18 @@ td,
 .add_spin{
     position:absolute;
     top:-50px;
-    left:320px
+    left:395px;
 }
 
 .add_view_spin{
     position:absolute;
     top:-50px;
-    left:385px
+    left:395px;
 }
 
 .spin{
     position:absolute;
-    /*height600の場合*/
-    /*top:230px;*/
-    top:130px;
-    left:-80px
+    left:-85px;
 }
 
 .center_grid .in_form{

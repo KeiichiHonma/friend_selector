@@ -10,8 +10,8 @@
 <!-- include ingrid lib -->
 <script type="text/javascript" src="/js/jquery.ingrid.js"></script>
 <!-- ingrid default stylesheet -->
-<link type="text/css" href="/css/ingrid.css?123" rel="stylesheet" media="all" />
-<link type="text/css" href="/css/list.css?234" rel="stylesheet" media="all" />
+<link type="text/css" href="/css/ingrid.css" rel="stylesheet" media="all" />
+<link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
 <!-- to make ingrid save her state (selected rows, page number, column sort & direction); just include the jQ cookie plugin -->
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/spin.min.js"></script>
@@ -236,7 +236,7 @@ $( 'input[id="relationship00"]:radio' ).attr('checked', true);
 // 以下はデフォルト値
 var opts = {
   lines:   20,    // 回転する線の本数
-  length:  30,     // 線の長さ
+  length:  20,     // 線の長さ
   width:   4,     // 線の太さ
   radius:  25,    // 線の丸み
   color: ' #000', // 線の色　#rgb or #rrggbb

@@ -56,7 +56,7 @@ $(function(){ldelim}
 // 以下はデフォルト値
 var opts = {
   lines:   20,    // 回転する線の本数
-  length:  25,     // 線の長さ
+  length:  20,     // 線の長さ
   width:   4,     // 線の太さ
   radius:  25,    // 線の丸み
   color: ' #000', // 線の色　#rgb or #rrggbb
