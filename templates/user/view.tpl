@@ -7,11 +7,8 @@
 <link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
 <link type="text/css" href="/css/jquery.treeview.css" rel="stylesheet" media="all" />
 <script type="text/javascript" src="/js/spin.min.js"></script>
-<script type="text/javascript" src="/js/fs.js"></script>
+<script type="text/javascript" src="/js/fs.js?{$tail_number}"></script>
 <script type="text/javascript">
-//$(document).ready(function(){ldelim}
-    //$(".ajax").colorbox();
-//{rdelim});
 
 $(document).ready(function() {ldelim}
  

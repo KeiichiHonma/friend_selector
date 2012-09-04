@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="/css/colorbox.css" />
 
 <script type="text/javascript" charset="utf-8" src="/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery.ingrid.js"></script>
+<script type="text/javascript" src="/js/jquery.ingrid.js?{$tail_number}"></script>
 <script src="/js/jquery.colorbox.js"></script>
 <script type="text/javascript" src="/js/spin.min.js"></script>
-<script type="text/javascript" src="/js/fs.js"></script>
+<script type="text/javascript" src="/js/fs.js?{$tail_number}"></script>
 
 
 <script type="text/javascript">

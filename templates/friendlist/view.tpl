@@ -6,10 +6,10 @@
 <link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
 
 <script type="text/javascript" charset="utf-8" src="/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery.ingrid.js"></script>
+<script type="text/javascript" src="/js/jquery.ingrid.js?{$tail_number}"></script>
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/spin.min.js"></script>
-<script type="text/javascript" src="/js/fs.js"></script>
+<script type="text/javascript" src="/js/fs.js?{$tail_number}"></script>
 
 <script type="text/javascript">
 var _ingrid_table1_0_total = 'def';
