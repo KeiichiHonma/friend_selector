@@ -24,7 +24,7 @@ $result = $facebook->api
         'queries'=>array
         (
             'q1' =>'select '.$con->permissions_comma.' from permissions where uid = me()',
-            'q2' =>'SELECT flid, owner, name FROM friendlist WHERE owner = me() ORDER BY flid DESC'
+            'q2' =>'SELECT flid, name FROM friendlist WHERE owner = me() ORDER BY flid DESC'
         ),
         'access_token'=>$access_token
     )

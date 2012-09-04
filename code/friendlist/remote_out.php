@@ -124,7 +124,7 @@ if(isset($_GET['dir'])){
         $order .= ' DESC';
     }
 }else{
-    $order .= ' ASC';
+    $order .= ' DESC';
 }
 
 //list 追加でリストで絞り込み
@@ -296,12 +296,15 @@ if( $count_friendlist_diff_friend != 0){
             print '</tr>';
             $i++;
         }
-        print '<script type="text/javascript">_ingrid_table2_0_total = '.$count_friendlist_diff_friend.';isSearch = true;form_handle(\'view\',false);</script>';
+        //print '<script type="text/javascript">_ingrid_table2_0_total = '.$count_friendlist_diff_friend.';isSearch = true;form_handle(\'view\',false);</script>';
+        print '<input type="hidden" id="_ingrid_table2_0_total_remote" class="_ingrid_table2_0_total_remote" value="'.$count_friendlist_diff_friend.'" />';
         //table1側 全チェック確認 //NEW_OUT_IDSでチェック
         if(util::isAllCheckbox($friendlist_diff_friend_chunk[$index],$new_in_ids_string) == 'checked'){
-            print '<script type="text/javascript">$(function(){doAllCheck(2);});</script>';
+            //print '<script type="text/javascript">$(function(){doAllCheck(2);});</script>';
+            print '<input type="hidden" id="remote_out_judge" class="remote_out_judge" value="1" />';
         }else{
-            print '<script type="text/javascript">$(function(){resetAllCheck(2);});</script>';
+            //print '<script type="text/javascript">$(function(){resetAllCheck(2);});</script>';
+            print '<input type="hidden" id="remote_out_judge" class="remote_out_judge" value="2" />';
         }
         print '</tbody>';
         print '</table>';
@@ -323,8 +326,12 @@ if($is_zero){
     print '<tr id="blank2">';
     print '<td><img src="/img/exclamation.png" border="0"></td><td>表示する友達がありません</td><td></td><td></td><td></td>';
     print '</tr>';
-    print '<script type="text/javascript">_ingrid_table2_0_total = 0;isSearch = true;document.getElementById(\'allCheck2\').disabled = true;form_handle(\'view\',false);</script>';
-    print '<script type="text/javascript">$(function(){resetAllCheck(2);});</script>';
+/*    print '<script type="text/javascript">_ingrid_table2_0_total = 0;isSearch = true;document.getElementById(\'allCheck2\').disabled = true;form_handle(\'view\',false);</script>';
+    print '<script type="text/javascript">$(function(){resetAllCheck(2);});</script>';*/
+    //print '<script type="text/javascript">_ingrid_table2_0_total = 0;isSearch = true;document.getElementById(\'allCheck2\').disabled = true;form_handle(\'view\',false);</script>';
+    //print '<script type="text/javascript">$(function(){resetAllCheck(2);});</script>';
+    print '<input type="hidden" id="_ingrid_table2_0_total_remote" class="_ingrid_table2_0_total_remote" value="0" />';
+    print '<input type="hidden" id="remote_out_judge" class="remote_out_judge" value="3" />';
     print '</tbody>';
     print '</table>';
 }

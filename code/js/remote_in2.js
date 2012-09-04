@@ -1,0 +1,1 @@
+$(function(){resetAllCheck(1);});

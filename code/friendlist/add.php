@@ -14,7 +14,7 @@ if(isset($_POST['add_friendlist_name']) && strlen($_POST['add_friendlist_name'])
             'queries'=>array
             (
                 'q1' =>'select '.$con->permissions_comma.' from permissions where uid = me()',
-                'q2' =>'SELECT flid, owner, name FROM friendlist WHERE owner = me() AND name = "'.$_POST['add_friendlist_name'].'"'
+                'q2' =>'SELECT flid, name FROM friendlist WHERE owner = me() AND name = "'.$_POST['add_friendlist_name'].'"'
             ),
             'access_token'=>$access_token
         )

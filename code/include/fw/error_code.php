@@ -12,6 +12,7 @@ define('E_CMMN_FRIENDLIST_EXISTS',       'FS_CMMN_00005');
 define('E_CMMN_FRIENDLIST_SAME',         'FS_CMMN_00006');
 define('E_CMMN_PERMISSIONS_ERROR',       'FS_CMMN_00007');
 define('E_CMMN_FB_EXCEPTION_ERROR',      'FS_CMMN_00008');
+define('E_CMMN_USER_EXISTS',             'FS_CMMN_00009');
 
 //エラーメッセージ
 define('FS_CMMN_00001',            'URLが不正です。');
@@ -22,6 +23,7 @@ define('FS_CMMN_00005',            '友達リストが削除されたか存在�
 define('FS_CMMN_00006',            '同じ名前の友達リストがすでに存在します。');
 define('FS_CMMN_00007',            '必要な権限が許可されていないため本アプリを使用することができません。<br />本アプリを一度削除してから再度権限を許可した上でご使用くださいませ。<br />【削除手順】<br />ホーム→プライバシー設定→広告、アプリ、ウェブサイトの設定を編集<br />→利用しているアプリ→Friend Selector→アプリを削除');
 define('FS_CMMN_00008',            'facebook側でエラーが発生しました。<a href="/">フレンドセレクタートップページ</a>に戻って再度操作を実行してください。<br />現象が回避されない場合は一度ログアウトしてから再度実行してください。');
+define('FS_CMMN_00009',            'ユーザーが存在しません。');
 //システム管理画面特有のエラー
 
 

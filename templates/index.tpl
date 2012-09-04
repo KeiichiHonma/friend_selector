@@ -32,19 +32,31 @@ $(function(){ldelim}
         <tr valign="top">
             <td class="wrap-friendlist-select">
             {include file="include/common/friendlist.inc"}
+            <ul class="explain">
+            <li>友達リストから複数の友達を選択して一括で追加、削除する場合<br />友達リストを使い始める時、あるいは友達リストの大きな変更時等、複数人を一気に変更する場合<br /><img src="/img/explain/ex2.jpg"></li>
+            </ul>
             <div class="line">&nbsp;</div>
             </td>
         </tr>
         <tr valign="top">
+            <td class="wrap-friendlist-select-middle">
+                <table class="search">
+                    <tr>
+                        <td class="arrow"><img src="/img/user_go.png"></td>
+                        <td><a href="/user/">友達から友達リストを選ぶ</a></td>
+                    </tr>
+                </table>
+                <ul class="explain">
+                <li>任意の友達から複数の友達リストを選択して一括で追加、削除する場合<br />後日、友達になった方を友達リストに振り分ける場合に使用します。<br /><img src="/img/explain/ex3.jpg"></li>
+                </ul>            <div class="line">&nbsp;</div>
+            </td>
+        </tr>
+        <tr valign="top">
             <td width="90%" id="tree_view_right" class="wrap-friendlist-select-bottom">
-                <div class="friendlist-name"><img src="/img/group.png">{$smarty.const.APP_NAME}について</div>
+                <div class="friendlist-name"><img src="/img/help.png">{$smarty.const.APP_NAME}について</div>
                 <ul class="explain">
                 <li>facebookの友達リストを使いやすくしたアプリです。<br />友達リストとは近況アップデートの公開範囲として利用できる便利なリストです。<br /><img src="/img/explain/ex1.gif"></li>
                 <li>facebook側では提供していない<strong>一括追加、一括削除機能を提供</strong>している友達リスト管理アプリです。<br />また、絞り込み条件を指定する機能もあるため、任意の友達まですぐに辿り着くことが可能です。</li>
-                {*<li><strong>1000人規模の追加、削除を数秒で処理</strong>できます。<br />友達数が多くて既存の友達リスト機能を使うことを諦めていた人にオススメです。<br /><span>※facebook提供の友達リスト機能は1000人の追加と削除に1000回のクリックが必要です・・・</span></li>*}
-                {*<li>友達が1,000人以上の方は現時点で制限をかけています。<br />ご要望あれば制限解除するかもしれません。連絡ください。</li>*}
-                <li>使い方はシンプルで「友達リストを選ぶ→友達を条件で絞る→追加、削除」<br /><img src="/img/explain/ex2.jpg"></li>
-                {*<li>友達リストの追加は可能ですが、削除機能は実装していません。</li>*}
                 <li>不明な動作等ありましたら連絡ください。<a href="https://www.facebook.com/keiichi.honma2" target="_parent">81@Keiichi Honma</a></li>
                 </ul>
             </td>

@@ -1,0 +1,1 @@
+$(function(){doAllCheck(2);});

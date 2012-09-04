@@ -83,6 +83,7 @@ td,
 }
 
 .line{
+    clear: both;
     height:1px;
     border-bottom:2px dashed #e7ebf2;
     padding:0px;
@@ -107,6 +108,13 @@ td,
     margin:0px;
 }
 
+.wrap-friendlist-select-middle {
+    border-right: 3px solid #e7ebf2;
+    border-left: 3px solid #e7ebf2;
+    padding:0 0 0 3;
+    margin:0px;
+}
+
 .wrap-friendlist-select-bottom {
     border-left: 3px solid #e7ebf2;
     border-bottom: 3px solid #e7ebf2;
@@ -120,8 +128,9 @@ td,
 
 .friendlist-name{
     padding-bottom:5px;
+    margin-bottom:5px;
     border-bottom:2px solid #e7ebf2;
-    font-size:16px;
+    font-size:15px;
 }
 .friendlist-name img{
     vertical-align:middle;
@@ -135,6 +144,12 @@ td,
 
 .friendlist-sec-name img{
     vertical-align:middle;
+}
+
+.user-name{
+    line-height:25px;
+    margin-bottom:5px;
+    font-size:14px;
 }
 
 .left_grid{
@@ -151,6 +166,12 @@ td,
     position:absolute;
     top:-50px;
     left:395px;
+}
+
+.update_spin{
+    position:absolute;
+    top:407px;
+    left:-68px;
 }
 
 .add_view_spin{
@@ -216,6 +237,10 @@ div#search input{
     margin:0px;
 }
 
+div#search #reset{
+    padding:2px 2px;
+}
+
 table.search td.arrow{
     vertical-align:middle;
     text-align:left;
@@ -239,7 +264,7 @@ table.search td.arrow{
     -webkit-border-radius: 15px; /* for Chrome */
 }
 ul.explain {
-    margin: 15px 0px 0px 0px;
+    margin: 5px 0px 0px 0px;
     line-height: 1.4;
     margin-left: 10px;
     padding-left: 25px;
@@ -293,4 +318,9 @@ input#in {
 
 input#out {
     padding:2px 1px;
+}
+
+.attention{
+    color:#FE9300;
+    font-weight:bold;
 }

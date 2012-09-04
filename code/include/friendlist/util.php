@@ -89,5 +89,27 @@ class util
         return '';
     }
 
+    static public function getUserHeight($user_rows,$user_height,$count_all_friend){
+        //高さ
+        $hiku = ceil( $user_height / 5 );
+        if($count_all_friend > $user_rows){
+            $height = $user_height;
+        }elseif($count_all_friend <= $user_rows && $count_all_friend > 40){
+            $height = $user_height;
+        }elseif($count_all_friend < $user_rows && $count_all_friend > 30){
+            $height = $user_height - $hiku;
+        }elseif($count_all_friend < $user_rows && $count_all_friend > 20){
+            $height = $user_height - ($hiku * 2);
+        }elseif($count_all_friend < $user_rows && $count_all_friend > 10){
+            $height = $user_height - ($hiku * 3);
+        }elseif($count_all_friend < $user_rows && $count_all_friend > 0){
+            $height = $user_height - ($hiku * 4);
+        }else{
+            $height = $user_height - ($hiku * 4);
+        }
+        return $height;
+    }
+
+
 }
 ?>

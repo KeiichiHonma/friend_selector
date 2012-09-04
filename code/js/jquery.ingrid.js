@@ -291,7 +291,13 @@ jQuery.fn.ingrid = function(o){
     if (cfg.paging) {
     
         // create a paging toolbar
-        var totr  = cfg.recordsPerPage > 0 ? cfg.recordsPerPage : b.find('tr').length;
+        if(is_user){
+            var totr  = cfg.recordsPerPage > 0 ? cfg.recordsPerPage : b.find('span').length;
+        }else{
+            var totr  = cfg.recordsPerPage > 0 ? cfg.recordsPerPage : b.find('tr').length;
+        }
+        
+        
         
         // total records viewing message (if we know total records)
         // total record count might not be passed in config, it's sometimes an expensive hit to the DB
@@ -324,7 +330,12 @@ jQuery.fn.ingrid = function(o){
                                             g.load( {page : p}, function(){
                                                 input.val(p);
                                                 if (cfg.totalRecords >= 0) {
-                                                    var totr = b.find('tr').length;
+                                                    if(is_user){
+                                                        var totr = b.find('span').length;
+                                                    }else{
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    
                                                     pv.updateViewInfo(totr, p);
                                                     if(cfg.pageChanged)
                                                         cfg.pageChanged(p);
@@ -410,6 +421,132 @@ jQuery.fn.ingrid = function(o){
         p.append(pb1).append(pb2).append(pform).append(pb3).append(pb4).append(pload).append(pv);
 
         // create our paging control container
+        var reset         = jQuery('<div />')
+                                .addClass(cfg.pageToolbarClass)
+                                .height(cfg.pageToolbarHeight)
+                                .width(b.width())
+                                .extend({                                        
+                                        setReset : function(){
+                                            var input = this.find('input.' + cfg.pageInputClass);
+                                            pload.removeClass(cfg.pageLoadingDoneClass);
+                                            g.load( {sex : 'open',relationship : 'open',flid : 'open',gid : 'open',new_friend : '',page : 1}, function(){
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                
+                                                if(_ingrid_table2_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table2_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table2_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table2_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                
+                                                if(_ingrid_table1_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    
+                                                    cfg.totalRecords = _ingrid_table1_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table1_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table1_0_total = 'def';
+
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                pload.addClass(cfg.pageLoadingDoneClass);
+                                            });
+                                            
+                                            return this;
+                                        }
+                                });
+
+        var new_friend_checkbox         = jQuery('<div />')
+                                .addClass(cfg.pageToolbarClass)
+                                .height(cfg.pageToolbarHeight)
+                                .width(b.width())
+                                .extend({                                        
+                                        setNewFriend : function(new_friend_val){
+                                            var input = this.find('input.' + cfg.pageInputClass);
+                                            pload.removeClass(cfg.pageLoadingDoneClass);
+                                            g.load( {new_friend : new_friend_val,page : 1}, function(){
+                                                input.val(new_friend_val);
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                
+                                                if(_ingrid_table2_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table2_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table2_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table2_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                
+                                                if(_ingrid_table1_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    
+                                                    cfg.totalRecords = _ingrid_table1_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table1_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table1_0_total = 'def';
+
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                pload.addClass(cfg.pageLoadingDoneClass);
+                                            });
+                                            
+                                            return this;
+                                        }
+                                });
+                                
+
         var sex_radio         = jQuery('<div />')
                                 .addClass(cfg.pageToolbarClass)
                                 .height(cfg.pageToolbarHeight)
@@ -418,8 +555,23 @@ jQuery.fn.ingrid = function(o){
                                         setSex : function(sex_val){
                                             var input = this.find('input.' + cfg.pageInputClass);
                                             pload.removeClass(cfg.pageLoadingDoneClass);
-                                            g.load( {sex : sex_val}, function(){
+                                            g.load( {sex : sex_val,page : 1}, function(){
                                                 input.val(sex_val);
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+                                                
                                                 if(_ingrid_table2_0_total != 'def'){
                                                     if (cfg.totalRecords >= 0) {
                                                         var totr = b.find('tr').length;
@@ -466,11 +618,22 @@ jQuery.fn.ingrid = function(o){
                                         setRelationship : function(relationship_val){
                                             var input = this.find('input.' + cfg.pageInputClass);
                                             pload.removeClass(cfg.pageLoadingDoneClass);
-                                            g.load( {relationship : relationship_val}, function(){
+                                            g.load( {relationship : relationship_val,page : 1}, function(){
                                                 input.val(relationship_val);
-                                                
-                                                
-
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
                                                 
                                                 if(_ingrid_table2_0_total != 'def'){
                                                     
@@ -520,8 +683,23 @@ jQuery.fn.ingrid = function(o){
                                         setFlid : function(flid_val){
                                             var input = this.find('input.' + cfg.pageInputClass);
                                             pload.removeClass(cfg.pageLoadingDoneClass);
-                                            g.load( {flid : flid_val}, function(){
+                                            g.load( {flid : flid_val,page : 1}, function(){
                                                 input.val(flid_val);
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+
                                                 if(_ingrid_table2_0_total != 'def'){
                                                     if (cfg.totalRecords >= 0) {
                                                         var totr = b.find('tr').length;
@@ -567,8 +745,23 @@ jQuery.fn.ingrid = function(o){
                                         setGid : function(gid_val){
                                             var input = this.find('input.' + cfg.pageInputClass);
                                             pload.removeClass(cfg.pageLoadingDoneClass);
-                                            g.load( {gid : gid_val}, function(){
+                                            g.load( {gid : gid_val,page : 1}, function(){
                                                 input.val(gid_val);
+                                                if(_ingrid_table3_0_total != 'def'){
+                                                    if (cfg.totalRecords >= 0) {
+                                                        var totr = b.find('tr').length;
+                                                    }
+                                                    cfg.totalRecords = _ingrid_table3_0_total;
+                                                    old_totp = totp;
+                                                    totp = Math.ceil(_ingrid_table3_0_total / totr);
+                                                    if(totp == 0) totp = 1;
+                                                    pinfo.html(pinfo.html().replace(' of ' + old_totp,' of ' + totp));//Page 書き換え
+                                                    _ingrid_table3_0_total = 'def';
+                                                    if (cfg.totalRecords >= 0) {
+                                                        pv.updateViewInfo(totr, 1);
+                                                    }
+                                                }
+
                                                 if(_ingrid_table2_0_total != 'def'){
                                                     if (cfg.totalRecords >= 0) {
                                                         var totr = b.find('tr').length;
@@ -607,6 +800,24 @@ jQuery.fn.ingrid = function(o){
                                 });
 
         // start page button
+        jQuery('input#reset').click( function() {
+            if(form_is_default() == false){
+                form_reset();
+                form_handle('view',true);
+                reset.setReset();
+            }
+        });
+
+        $( 'input[name="new_friend"]:checkbox' ).change( function() {
+            form_handle('view',true);
+            var new_friend_val = 'open';
+            if($( this ).attr('checked')){
+                new_friend_val = 'new';
+            }
+            new_friend_checkbox.setNewFriend(new_friend_val);
+            
+        });
+
         $( 'input[name="sex"]:radio' ).change( function() {
             form_handle('view',true);
             var sex_val = $( this ).val();
@@ -671,8 +882,13 @@ jQuery.fn.ingrid = function(o){
             alert(this + ' ...is jQuery')
             alert(this[0] + ' ...is the div, id="' + this.attr('id') + '"')
             */
-            
+            //alert(this.attr('id'));
             // show loading canvas
+            
+            var table_id = this.attr('id');
+            var table_id_total_remote = 'input.' + table_id + '_total_remote';
+            var remote_in_judge = 'input.remote_in_judge';
+            
             modalmask.width(b.width()).show();
             
             // save selected rows
@@ -684,6 +900,7 @@ jQuery.fn.ingrid = function(o){
                 data: data,
                 success: function(result){
                     //alert(url);
+                    
                     if(result == "") {
                         alert('Error: Empty result.');
                         return;
@@ -694,12 +911,60 @@ jQuery.fn.ingrid = function(o){
                         // not supported :)
                         alert('json = ' + rows);                        
                     }
+                    
+                    //alert( result );
+                    
                     // for HTML (Table) return type
                     if (cfg.dataType == 'html') {
                         var $tbl = jQuery(result);
+                        
+                        var _ingrid_table_total_remote_value = $tbl.find(table_id_total_remote).val();
+                        
+                        
+                        if(_ingrid_table_total_remote_value != ''){
+                            if(table_id == '_ingrid_table1_0'){
+                                _ingrid_table1_0_total = _ingrid_table_total_remote_value;
+                                var remote_in_judge_value = $tbl.find(remote_in_judge).val();
+                                jQuery . ajax(
+                                    '/js/remote_in' + remote_in_judge_value + '.js',
+                                    {
+                                        dataType: 'script',
+                                        success: function( data ) {
+                                            //jQuery( '#jquery-ajax' ) . html( data );
+                                            //alert( '読み込み成功' );
+                                        },
+                                        error: function( data ) {
+                                            //alert( '読み込み失敗' );
+                                        }
+                                    }
+                                );
+
+                            }else if(table_id == '_ingrid_table2_0'){
+                                _ingrid_table2_0_total = _ingrid_table_total_remote_value;
+                                var remote_in_judge_value = $tbl.find(remote_in_judge).val();
+                                jQuery . ajax(
+                                    '/js/remote_out' + remote_in_judge_value + '.js',
+                                    {
+                                        dataType: 'script',
+                                        success: function( data ) {
+                                            //jQuery( '#jquery-ajax' ) . html( data );
+                                            //alert( '読み込み成功' );
+                                        },
+                                        error: function( data ) {
+                                            //alert( '読み込み失敗' );
+                                        }
+                                    }
+                                );
+                                
+                            }else if(table_id == '_ingrid_table3_0'){
+                                _ingrid_table3_0_total = _ingrid_table_total_remote_value;
+                                //var classCount = document.getElementsByClassName("test").length;
+                                //alert(classCount);
+                                //$(".test").colorbox();
+                            }
+                        }
+                        
                         var row  = $tbl.find('tr:first');
-                        //var row  = $tbl.find('tbody tr:first');
-                        //alert(jQuery(row).find('td').length);
                         if ( jQuery(row).find('td').length == cfg.colWidths.length ) {
                             // setting width on first row keeps it from "blinking"
                             jQuery(row).find('td').each(function(i){
@@ -730,6 +995,25 @@ jQuery.fn.ingrid = function(o){
                 },
                 complete: function(){
                     modalmask.hide();
+                    if(is_user){
+                        var remote_append_url = '/js/remote_user_append.js';
+                    }else{
+                        var remote_append_url = '/js/remote_append.js';
+                    }
+                    jQuery . ajax(
+                        remote_append_url,
+                        
+                        {
+                            dataType: 'script',
+                            success: function( data ) {
+                                //jQuery( '#jquery-ajax' ) . html( data );
+                                //alert( '読み込み成功' );
+                            },
+                            error: function( data ) {
+                                //alert( '読み込み失敗' );
+                            }
+                        }
+                    );
                 }
             });
             return this;
@@ -967,7 +1251,7 @@ jQuery.fn.ingrid = function(o){
                         // custom row class
                         jQuery(this).addClass(cfg.rowClasses[cursor]);                            
                     }
-                    if (cfg.rowHoverClass != '') {
+                    if (cfg.rowHoverClass != '' && is_user == false) {
                         // hover class
                         jQuery(this).hover(
                             function() { if (jQuery(this).attr('_selected') != 'true') jQuery(this).removeClass(cfg.rowClasses[cursor]).addClass(cfg.rowHoverClass); },

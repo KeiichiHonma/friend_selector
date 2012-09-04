@@ -58,6 +58,8 @@ $column_comma = implode(',',$column);
 
 //ページング
 $rows = 50;//最大
+$user_rows = 50;//最大
+$user_height = 450;
 $cols = 5;//name pic_squareは同一カラム
 
 //設定

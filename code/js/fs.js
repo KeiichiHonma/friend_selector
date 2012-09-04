@@ -17,8 +17,13 @@ function search_d(){
     }
 }
 
-function jumpMenu(selObj){
-    if(selObj.options[selObj.selectedIndex].value == "") return false;
+function jumpMenu(selObj,page){
+    if(selObj.options[selObj.selectedIndex].value == ""){
+        return false;
+    }else{
+        form_handle(page,true);
+    }
+
     location.href = selObj.options[selObj.selectedIndex].value;
 }
 
@@ -30,15 +35,20 @@ function findObj(n, d) {
     if(!x && d.getElementById) x=d.getElementById(n); return x;
 }
 
-function selectFriendlist(selName){
-    form_handle('index',true);
+function selectFriendlist(selName,page){
     var selObj = findObj(selName);
-    if (selObj) jumpMenu(selObj);
+    if (selObj) jumpMenu(selObj,page);
 }
 
 function form_handle(page,bl){
+    //alert(page);
     document.getElementById('friendlist_form').friendlist.disabled = bl;
     document.getElementById('add').disabled = bl;
+    var new_friend_bl = false;
+    if(document.getElementById('new_friend') != null){
+        new_friend_bl = document.getElementById('new_friend').checked;
+    }
+    
     if(page == 'view'){
         document.getElementById('sex_form').sex[0].disabled = bl;
         document.getElementById('sex_form').sex[1].disabled = bl;
@@ -53,10 +63,18 @@ function form_handle(page,bl){
         document.getElementById('relationship_form').relationship[7].disabled = bl;
         document.getElementById('relationship_form').relationship[8].disabled = bl;
         document.getElementById('relationship_form').relationship[9].disabled = bl;
-        if(document.getElementById('flid_form') != null) document.getElementById('flid_form').flid.disabled = bl;
+        if(document.getElementById('new_friend') != null) document.getElementById('new_friend').disabled = bl;        
+        //if(document.getElementById('flid_form') != null) document.getElementById('flid_form').flid.disabled = bl;
+        if(document.getElementById('flid_form') != null){
+            if(new_friend_bl == true){
+                document.getElementById('flid_form').flid.disabled = true;
+            }else{
+                document.getElementById('flid_form').flid.disabled = bl;
+            }
+        }
         if(document.getElementById('gid_form') != null) document.getElementById('gid_form').gid.disabled = bl;
-        document.getElementById('in').disabled = bl;
-        document.getElementById('out').disabled = bl;
+        if(document.getElementById('in') != null) document.getElementById('in').disabled = bl;
+        if(document.getElementById('out') != null) document.getElementById('out').disabled = bl;
         flid_handle('a',bl);
         flid_handle('input',bl);
     }
@@ -73,3 +91,34 @@ function flid_handle(tgname,bl) {
             }
          }
     }
+
+function user_form_handle(bl){
+    document.getElementById('update').disabled = bl;
+    $("[name='user_update[]']").each(function(){
+        this.disabled = bl;
+    });
+}
+
+function form_is_default(){
+    if
+    (
+        document.getElementById('sex_form').sex[0].checked == true && 
+        document.getElementById('relationship_form').relationship[0].checked == true && 
+        ( document.getElementById('new_friend_form') == null || document.getElementById('new_friend_form').new_friend.checked == false ) &&
+        ( document.getElementById('flid_form') == null || document.getElementById('flid_form').flid.options[0].selected == true ) &&
+        ( document.getElementById('gid_form') == null || document.getElementById('gid_form').gid.options[0].selected == true )
+    ){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function form_reset(){
+    document.getElementById('sex_form').sex[0].checked = true;
+    document.getElementById('relationship_form').relationship[0].checked = true;
+    
+    if(document.getElementById('new_friend_form') != null) document.getElementById('new_friend_form').new_friend.checked = false;
+    if(document.getElementById('flid_form') != null) document.getElementById('flid_form').flid.options[0].selected = true;
+    if(document.getElementById('gid_form') != null) document.getElementById('gid_form').gid.options[0].selected = true;
+}

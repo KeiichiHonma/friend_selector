@@ -1,0 +1,1 @@
+document.getElementById('allCheck2').disabled = true;

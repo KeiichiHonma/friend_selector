@@ -4,12 +4,12 @@
         <td>
             <form id="friendlist_form" name="friendlist_form">
             <select name="friendlist_menu" id="friendlist_menu">
-            <option value="">友達リストを選択</option>
+            <option value="">友達リストから友達を選ぶ</option>
             {foreach from=$friendlist key="key" item="value" name="friendlist"}
             <option value="/friendlist/view/flid/{$value.flid}{if isset($flid) && strcasecmp($value.flid,$flid) != 0}?c=d{/if}" {if isset($flid) && strcasecmp($value.flid,$flid) == 0}selected{/if}>{$value.name|makeFriendlistName:26}</option>
             {/foreach}
             </select>
-            <input type="button" id="friendlist" name="friendlist" value="表示" onClick="selectFriendlist('friendlist_menu')">
+            <input type="button" id="friendlist" name="friendlist" value="表示" onClick="selectFriendlist('friendlist_menu',{if isset($flid) || isset($user)}'view'{else}'index'{/if})">
             </form>
         </td>
         <td class="arrow"><img src="/img/arrow_s_r.gif"></td>

@@ -2,17 +2,11 @@
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-
-<script type="text/javascript" charset="utf-8" src="/js/jquery-1.7.2.min.js"></script>
-
-<!-- include jquery lib -->
-<script type="text/javascript" src="/js/jquery.js"></script>
-<!-- include ingrid lib -->
-<script type="text/javascript" src="/js/jquery.ingrid.js"></script>
-<!-- ingrid default stylesheet -->
 <link type="text/css" href="/css/ingrid.css" rel="stylesheet" media="all" />
 <link type="text/css" href="/css/list.css" rel="stylesheet" media="all" />
-<!-- to make ingrid save her state (selected rows, page number, column sort & direction); just include the jQ cookie plugin -->
+
+<script type="text/javascript" charset="utf-8" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ingrid.js"></script>
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/spin.min.js"></script>
 <script type="text/javascript" src="/js/fs.js"></script>
@@ -20,6 +14,8 @@
 <script type="text/javascript">
 var _ingrid_table1_0_total = 'def';
 var _ingrid_table2_0_total = 'def';
+var _ingrid_table3_0_total = 'def';
+var is_user = false;
 $(document).ready(
     function() {ldelim}
         $("#table1").ingrid({ldelim}
@@ -50,6 +46,9 @@ $(document).ready(
 );
 
 $(function(){ldelim}
+    $('#reset').click(function() {ldelim}
+        form_reset();
+    {rdelim});
     $('#add').click(function() {ldelim}
         if( document.getElementById('add_friendlist_name').value != ''){ldelim}
             form_handle('view',true);
@@ -99,65 +98,13 @@ $(function(){ldelim}
     <tr valign="top">
         <td class="wrap-friendlist-select">
             {include file="include/common/friendlist.inc"}
-            <div id="search">
-                <div class="line">&nbsp;</div>
                 <table class="search">
                     <tr>
-                        <td>
-                            <fieldset>
-                            <legend><img src="/img/male.png" width="16" height="16">性別<img src="/img/female.png" width="16" height="16"></legend>
-                            <table>
-                            <tr><td nowrap class="radio"><form id="sex_form"><label><input type="radio" id="sex1" name="sex" value="open" checked="checked">指定しない</label><br /><label><input type="radio" id="sex2" name="sex" value="male">男性</label><br /><label><input type="radio" id="sex3" name="sex" value="female">女性</label></form></td></tr>
-                            </table>
-                            </fieldset>
-                        </td>
-                        <td class="arrow"><img src="/img/arrows.gif"></td>
-                        <td>
-                            <fieldset>
-                                <legend><img src="/img/heart.png" width="16" height="16">交際ステータス<img src="/img/heart.png" width="16" height="16"></legend>
-                                <table>
-                                <tr><td colspan="3" class="radio"><form id="relationship_form"><label><input type="radio" id="relationship00" name="relationship" value="open" checked>指定しない</label></td></tr>
-                                {foreach from=$relationship_status key="key" item="value" name="relationship_status"}
-                                    <tr>
-                                    {foreach from=$value key="key2" item="value2" name="relationship_status2"}
-                                        <td nowrap class="radio"><label><input type="radio" id="relationship{$smarty.foreach.relationship_status.iteration}{$smarty.foreach.relationship_status2.iteration}" name="relationship" value="{$key2}">{$value2}</label></td>
-                                    {/foreach}
-                                    </tr>
-                                {/foreach}
-                                </form>
-                                </table>
-                            </fieldset>
-                        </td>
-                        {if $friendlist}
-                        <td class="arrow"><img src="/img/arrows.gif"></td>
-                        <td>
-                            <fieldset>
-                                <legend><img src="/img/group.png" width="16" height="16">友達リストで絞り込み<img src="/img/zoom.png" width="16" height="16"></legend>
-                                <form id="flid_form"><select id="flid" name="flid">
-                                <option value="open">指定しない</option>
-                                {foreach from=$friendlist key="key" item="value" name="friendlist"}
-                                    {if strcasecmp($value.flid,$flid) != 0}
-                                    <option value="{$value.flid}">{$value.name|makeFriendlistName:28}</option>
-                                    {/if}
-                                {/foreach}
-                                </select></form>
-                            </fieldset>
-                            {if $grouplist}
-                            <fieldset>
-                                <legend><img src="/img/group_link.png" width="16" height="16">所属グループで絞り込み<img src="/img/zoom.png" width="16" height="16"></legend>
-                                <form id="gid_form"><select id="gid" name="gid">
-                                <option value="open">指定しない</option>
-                                {foreach from=$grouplist key="key" item="value" name="grouplist"}
-                                    <option value="{$value.gid}">{$value.name|make_strim:28}</option>
-                                {/foreach}
-                                </select></form>
-                            </fieldset>
-                            {/if}
-                        </td>
-                        {/if}
+                        <td class="arrow"><img src="/img/user_go.png"></td>
+                        <td><a href="/user/">友達から友達リストを選ぶ</a>(任意の友達から複数の友達リストを選択して一括で追加、削除する場合)</td>
                     </tr>
                 </table>
-            </div>
+            {include file="include/common/search.inc"}
         </td>
     </tr>
 <tr>

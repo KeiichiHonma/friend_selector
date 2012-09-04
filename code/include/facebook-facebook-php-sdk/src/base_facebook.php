@@ -1161,7 +1161,7 @@ die();
    */
   protected function throwAPIException($result) {
     $e = new FacebookApiException($result);
-
+    global $con;
     switch ($e->getType()) {
       // OAuth 2.0 Draft 00 style
       case 'OAuthException':
@@ -1178,8 +1178,7 @@ die();
             (strpos($message, 'An active access token must be used') !== false)
         ) {
           $this->destroySession();
-            global $con;
-            //$con->safeExitRedirect('',TRUE);
+            
             $par = array(
                 //'scope' => 'publish_stream,read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_likes,friends_likes',
                 'scope' => $con->permissions_comma,
@@ -1189,9 +1188,14 @@ die();
             echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
             exit();
         }
-        $this->sendError($e);
-        require_once('fw/errorManager.php');
-        errorManager::throwError(E_CMMN_FB_EXCEPTION_ERROR);
+        if($con->isDebug == true){
+var_dump($e);
+die();
+        }else{
+            $this->sendError($e);
+            require_once('fw/errorManager.php');
+            errorManager::throwError(E_CMMN_FB_EXCEPTION_ERROR);
+        }
         //Requires user session
 /*        if($result['error_code'] == 102){
             $logoutUrl = $this->getLogoutUrl();

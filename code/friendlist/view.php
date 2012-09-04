@@ -25,9 +25,9 @@ $result = $facebook->api
         'queries'=>array
         (
             'q1' =>'select '.$con->permissions_comma.' from permissions where uid = me()',
-            'q2' =>'SELECT flid, owner, name FROM friendlist WHERE owner = me() ORDER BY flid DESC',//全ての友達リスト
-            'q3' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' ) ORDER BY uid ASC',//指定の友達リスト内のフレンド
-            'q4' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid2 FROM friend WHERE uid1 = me() )',//全てのフレンド
+            'q2' =>'SELECT flid, name FROM friendlist WHERE owner = me() ORDER BY flid DESC',//全ての友達リスト
+            'q3' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid FROM friendlist_member WHERE flid = '.$flid.' ) ORDER BY uid DESC',//指定の友達リスト内のフレンド
+            'q4' =>'SELECT '.$column_comma.' FROM user WHERE uid in ( SELECT uid2 FROM friend WHERE uid1 = me() ) ORDER BY uid DESC',//全てのフレンド
             'q5' =>'select gid, uid from group_member where uid = me()',//自分が入っているグループ取得
             'q6' =>'SELECT gid, name FROM group WHERE gid in ( SELECT gid FROM #q5 ) '//グループ情報取得
         ),
