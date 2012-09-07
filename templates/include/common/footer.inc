@@ -11,11 +11,10 @@ FB.init({ldelim}
 {rdelim});
 
 window.fbAsyncInit = function() {ldelim}
-    FB.Canvas.setAutoResize();
+    FB.Canvas.setAutoGrow();
 {rdelim}
 
 jQuery(document).ready(function(){ldelim}
-    // hide scroll bar
-    FB.Canvas.setAutoResize();
+    FB.Canvas.setAutoGrow();
 {rdelim});
 </script>
