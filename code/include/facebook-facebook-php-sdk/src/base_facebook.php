@@ -1177,10 +1177,8 @@ die();
             (strpos($message, 'Invalid OAuth access token') !== false) ||
             (strpos($message, 'An active access token must be used') !== false)
         ) {
-          $this->destroySession();
-            
+            $this->destroySession();
             $par = array(
-                //'scope' => 'publish_stream,read_friendlists,manage_friendlists,user_birthday,friends_birthday,user_likes,friends_likes',
                 'scope' => $con->permissions_comma,
                 'redirect_uri' => FSURLSSL.$path
             );
@@ -1188,21 +1186,26 @@ die();
             echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
             exit();
         }
+        //Requires user session
+        if($result['error_code'] == 102){
+            $this->destroySession();
+            $par = array(
+                'scope' => $con->permissions_comma,
+                'redirect_uri' => FSURLSSL.$path
+            );
+            $fb_login_url = $this->getLoginUrl($par);
+            echo "<script type='text/javascript'>top.location.href = '$fb_login_url';</script>";
+            exit();
+        }
+        
         if($con->isDebug == true){
-var_dump($e);
-die();
+            var_dump($e);
+            die();
         }else{
             $this->sendError($e);
             require_once('fw/errorManager.php');
             errorManager::throwError(E_CMMN_FB_EXCEPTION_ERROR);
         }
-        //Requires user session
-/*        if($result['error_code'] == 102){
-            $logoutUrl = $this->getLogoutUrl();
-            echo "<script type='text/javascript'>top.location.href = '$logoutUrl';</script>";
-            exit();
-        }*/
-
         break;
     }
 
