@@ -20,20 +20,6 @@ var _ingrid_table1_0_total = 'def';
 var _ingrid_table2_0_total = 'def';
 var _ingrid_table3_0_total = 'def';
 var is_user = true;
-$(function(){ldelim}
-    $('#add').click(function() {ldelim}
-        if( document.getElementById('add_friendlist_name').value != ''){ldelim}
-            form_handle('index',true);
-            document.getElementById('add').disabled = true;
-            // spin実行
-            document.getElementById('add_spin').style.display='block';
-            var spinner = new Spinner(opts).spin(target);
-            $('#add_form').attr('action', '/friendlist/add');
-            $('#add_form').submit();
-        {rdelim}
-    {rdelim});
-{rdelim});
-
 $(document).ready(
     function() {ldelim}
         $("#table3").ingrid({ldelim}
@@ -50,6 +36,23 @@ $(document).ready(
         {rdelim});
     {rdelim}
 );
+
+$(function(){ldelim}
+    $('#reset').click(function() {ldelim}
+        form_reset();
+    {rdelim});
+    $('#add').click(function() {ldelim}
+        if( document.getElementById('add_friendlist_name').value != ''){ldelim}
+            form_handle('index',true);
+            document.getElementById('add').disabled = true;
+            // spin実行
+            document.getElementById('add_spin').style.display='block';
+            var spinner = new Spinner(opts).spin(target);
+            $('#add_form').attr('action', '/friendlist/add');
+            $('#add_form').submit();
+        {rdelim}
+    {rdelim});
+{rdelim});
 
 $(document).ready(function(){ldelim}
     $(".cb1").colorbox();
