@@ -802,9 +802,9 @@ jQuery.fn.ingrid = function(o){
         // start page button
         jQuery('input#reset').click( function() {
             if(form_is_default() == false){
-                form_reset();
                 form_handle('view',true);
                 reset.setReset();
+                //form_reset();
             }
         });
 
