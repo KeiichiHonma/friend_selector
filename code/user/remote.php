@@ -155,12 +155,14 @@ if($isList && $isGroup){
     $group_query_no = 'q2';
     $use_query_no = 'q2';
     $user_query_no = 'q3';
+    $user_query_no2 = 'q4';
     $result_no = 2;
     $facebook->api_setting = array('','','uid');//index変更
 }elseif($isList && !$isGroup){
     $list_query_no = 'q1';
     $use_query_no = 'q1';
     $user_query_no = 'q2';
+    $user_query_no2 = 'q3';
     $result_no = 1;
     $facebook->api_setting = array('','uid');//index変更
 }elseif(!$isList && $isGroup){
@@ -168,6 +170,7 @@ if($isList && $isGroup){
     $group_query_no = 'q2';
     $use_query_no = 'q2';
     $user_query_no = 'q3';
+    $user_query_no2 = 'q4';
     $result_no = 2;
     
     if($is_new_friend){
